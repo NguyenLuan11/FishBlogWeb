@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headUserPage-html">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+
+    <!-- Fonts -->
+    <link th:href="@{https://fonts.googleapis.com}" rel="preconnect">
+    <link th:href="@{https://fonts.gstatic.com}" rel="preconnect" crossorigin>
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap}" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/vendor/aos/aos.css}" rel="stylesheet">
+    <link th:href="@{/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link th:href="@{/css/user/main.css}" rel="stylesheet">
+</head>
+<body>
+<header th:fragment="headerUserPage-html" id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <a th:href="@{/}" class="logo d-flex align-items-center me-auto me-xl-0">
+            <!-- Uncomment the line below if you also wish to use an image logo -->
+            <!-- <img src="assets/img/logo.png" alt=""> -->
+            <h1 class="sitename">FishBlog</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+            <ul>
+                <li><a th:href="@{/}" class="active">Home</a></li>
+                <li><a th:href="@{/introduce}">Introduce</a></li>
+                <li><a href="">Post</a></li>
+                <li class="dropdown"><a th:href="@{#}"><span>Categories</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="">Fishes</a></li>
+                        <li class="dropdown"><a th:href="@{#}"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a th:href="@{#}">Deep Dropdown 1</a></li>
+                                <li><a th:href="@{#}">Deep Dropdown 2</a></li>
+                                <li><a th:href="@{#}">Deep Dropdown 3</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="">Category 2</a></li>
+                    </ul>
+                </li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <div class="header-social-links">
+            <a th:href="@{#}" class="twitter"><i class="bi bi-twitter-x"></i></a>
+            <a th:href="@{#}" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a th:href="@{#}" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a th:href="@{#}" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        </div>
+
+    </div>
+</header>
+</body>
+</html>
