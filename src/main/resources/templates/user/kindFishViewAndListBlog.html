@@ -1,10 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Details about kind of fish</title>
 </head>
-<body>
+<head th:replace="~{user/common/header :: headUserPage-html}"></head>
+<body class="index-page">
+    <header th:replace="~{user/common/header :: headerUserPage-html}"></header>
 
+    <main class="main">
+
+        <!-- Kind Fish Section -->
+        <section id="lifestyle-category" class="lifestyle-category section">
+
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <div class="section-title-container d-flex align-items-center justify-content-between">
+                    <h2 th:text="${kindFish.kindFishName}"></h2>
+                    <p>
+                        <span class="date">Modified date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
+                    </p>
+                </div>
+            </div><!-- End Section Title -->
+
+            <!-- KIND OF FISH -->
+            <div class="container mt-0" data-aos="fade-up" data-aos-delay="100">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
+                    <div class="col">
+                        <img th:src="${kindFish.imageUrl}" height="300px" class="card-img-top" alt="Fish Image">
+                    </div>
+                    <div class="col">
+                        <div class="fs-5" th:utext="${kindFish.description}"></div>
+                    </div>
+                </div>
+            </div>
+
+        </section><!-- /Kind Fish Section -->
+
+        <!-- Blogs of kind fish Section -->
+        <section id="business-category" class="business-category section">
+
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <div class="section-title-container d-flex align-items-center justify-content-between">
+                    <h2>Blogs</h2>
+                </div>
+            </div><!-- End Section Title -->
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(kindFish.fishBlogs)}">
+                    <h3 th:text="'Blogs of ' + ${kindFish.kindFishName} + ' is empty!'"></h3>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(kindFish.fishBlogs)}">
+                    <div class="col" th:each="fishBlog : ${kindFish.fishBlogs}">
+                        <div class="card h-50 shadow-sm">
+                            <div class="post-meta" style="padding: 5px; padding-left: 10px;">
+                                <!--                                <span class="date" style="margin-right: 5px">Created date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(fishBlog.createdDate, 'dd/MM/yyyy')}"></span>-->
+                                <!--                                <br>-->
+                                <span class="date">Modified date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(fishBlog.modifiedDate, 'dd/MM/yyyy')}"></span>
+                            </div>
+                            <a th:href="@{'/details-fishBlog/' + ${fishBlog.id}}">
+                                <img th:src="${fishBlog.thumbnailUrl}" height="280px" class="card-img-top" alt="Fish ThumbnailUrl">
+                            </a>
+                            <div class="card-body">
+                                <h3 class="card-title">
+                                    <a th:href="@{'/details-fishBlog/' + ${fishBlog.id}}" th:text="${fishBlog.fishName}"></a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section><!-- /Blogs of kind fish Section -->
+
+    </main>
+
+    <footer th:replace="~{user/common/footer :: footerUserPage-html}"></footer>
 </body>
 </html>

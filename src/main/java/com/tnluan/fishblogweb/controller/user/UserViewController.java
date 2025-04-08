@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -39,5 +40,12 @@ public class UserViewController {
     @GetMapping("/introduce")
     public String introducePage() {
         return "user/introducePage";
+    }
+
+    @GetMapping("/details-kindFish/{id}")
+    public String detailsKindFishAndListBlog(@PathVariable("id") Long id, Model model) {
+        KindFishDto kindFishDto = kindFishService.getKindFishById(id);
+        model.addAttribute("kindFish", kindFishDto);
+        return "user/kindFishViewAndListBlog";
     }
 }
