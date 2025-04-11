@@ -10,14 +10,14 @@
 
     <main class="main">
 
-        <!-- Fishes Category Section -->
+        <!-- Kind Fishes Category Section -->
         <section id="lifestyle-category" class="lifestyle-category section">
 
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
                 <div class="section-title-container d-flex align-items-center justify-content-between">
-                    <h2>Fishes</h2>
-                    <p><a href="">See All Fishes</a></p>
+                    <h2>Kind Fishes</h2>
+                    <p><a href="">See All Kind Fishes</a></p>
                 </div>
             </div><!-- End Section Title -->
 
@@ -28,7 +28,7 @@
                     <h3>List kind of fish is empty!</h3>
                 </div>
 
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" th:unless="${#lists.isEmpty(listKindFish)}">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listKindFish)}">
                     <div class="col" th:each="kindFish : ${listKindFish}">
                         <div class="card h-100 shadow-sm">
                             <div class="post-meta" style="padding: 5px; padding-left: 10px;">
@@ -37,15 +37,15 @@
                                 <span class="date">Modified date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
                             </div>
                             <a th:href="@{'/details-kindFish/' + ${kindFish.id}}">
-                                <img th:src="${kindFish.imageUrl}" height="280px" class="card-img-top" alt="Fish Image">
+                                <img th:src="${kindFish.imageUrl}" height="220px" class="card-img-top" alt="Fish Image">
                             </a>
                             <div class="card-body">
                                 <h3 class="card-title">
                                     <a th:href="@{'/details-kindFish/' + ${kindFish.id}}" th:text="${kindFish.kindFishName}"></a>
                                 </h3>
                                 <div class="card-text"
-                                     th:utext="${#strings.length(kindFish.description) > 200
-                                                    ? #strings.substring(kindFish.description, 0, 200) + ' ...'
+                                     th:utext="${#strings.length(kindFish.description) > 100
+                                                    ? #strings.substring(kindFish.description, 0, 100) + ' ...'
                                                     : kindFish.description}">
                                 </div>
                             </div>
@@ -54,7 +54,7 @@
                 </div>
             </div>
 
-        </section><!-- /Fishes Category Section -->
+        </section><!-- /Kind Fishes Category Section -->
 
         <!-- Culture Category Section -->
         <section id="culture-category" class="culture-category section">
