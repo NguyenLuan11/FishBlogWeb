@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>404 ERROR</title>
 </head>
+<head th:replace="~{user/common/header :: headUserPage-html}"></head>
 <body>
-    <h3 th:text="${message}"></h3>
+    <div class="d-flex flex-column justify-content-around align-items-center p-4">
+        <div class="m-4">
+            <img th:src="@{/img/404.png}" height="400px" width="400px" alt="404 ERROR" srcset="">
+        </div>
+        <h4 th:text="${message}"></h4>
+    </div>
 </body>
 </html>
