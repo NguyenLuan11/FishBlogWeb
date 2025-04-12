@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Blogs of Fishes</title>
+</head>
+<head th:replace="~{user/common/header :: headUserPage-html}"></head>
+<body class="index-page">
+    <header th:replace="~{user/common/header :: headerUserPage-html}"></header>
+
+    <main class="main">
+        <!-- All Blogs of Fishes Category Section -->
+        <section id="lifestyle-category" class="lifestyle-category section">
+
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <div class="section-title-container d-flex align-items-center justify-content-between">
+                    <h2>All Blogs of Fishes</h2>
+                </div>
+            </div><!-- End Section Title -->
+
+            <!-- LIST BLOGS OF FISHES -->
+            <div class="container mt-0" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listFishBlogs)}">
+                    <h3>List Blogs of Fishes is empty!</h3>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listFishBlog)}">
+                    <div class="col" th:each="fishBlog : ${listFishBlog}">
+                        <div class="card h-50 shadow-sm">
+                            <div class="post-meta" style="padding: 5px; padding-left: 10px;">
+                                <span class="date">Modified date</span>
+                                <span class="mx-1">•</span>
+                                <span th:text="${#dates.format(fishBlog.modifiedDate, 'dd/MM/yyyy')}"></span>
+                            </div>
+                            <a th:href="@{'/details-fishBlog/' + ${fishBlog.id}}">
+                                <img th:src="${fishBlog.thumbnailUrl}" height="280px" class="card-img-top" alt="Fish ThumbnailUrl">
+                            </a>
+                            <div class="card-body">
+                                <h3 class="card-title">
+                                    <a th:href="@{'/details-fishBlog/' + ${fishBlog.id}}" th:text="${fishBlog.fishName}"></a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center mt-4" th:if="${totalPages > 1}">
+                <nav>
+                    <ul class="pagination">
+
+                        <!-- Button Previous -->
+                        <li th:classappend="${currentPage == 0} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{'/fish-blogs'(page=${currentPage - 1})}">Previous</a>
+                        </li>
+
+                        <!-- Numbers of page -->
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${i == currentPage} ? 'active'">
+                            <a class="page-link" th:href="@{'/fish-blogs'(page=${i})}" th:text="${i + 1}"></a>
+                        </li>
+
+                        <!-- Button Next -->
+                        <li th:classappend="${currentPage + 1 == totalPages} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{'/fish-blogs'(page=${currentPage + 1})}">Next</a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div><!-- /Pagination -->
+
+        </section><!-- /All Blogs of Fishes Category Section -->
+    </main>
+
+    <footer th:replace="~{user/common/footer :: footerUserPage-html}"></footer>
+</body>
+</html>
