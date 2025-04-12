@@ -1,8 +1,10 @@
 package com.tnluan.fishblogweb.controller.user;
 
+import com.tnluan.fishblogweb.dto.FishBlogDto;
 import com.tnluan.fishblogweb.dto.KindFishDto;
 import com.tnluan.fishblogweb.exception.ResourceInternalServerErrorException;
 import com.tnluan.fishblogweb.exception.ResourceNotFoundException;
+import com.tnluan.fishblogweb.service.FishBlogService;
 import com.tnluan.fishblogweb.service.KindFishService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,8 @@ import java.util.List;
 public class UserViewController {
 
     private KindFishService kindFishService;
+
+    private FishBlogService fishBlogService;
 
     @GetMapping("/")
     public String homePage(Model model) {
@@ -55,9 +59,25 @@ public class UserViewController {
     }
 
     @GetMapping("/details-kindFish/{id}")
-    public String detailsKindFishAndListBlog(@PathVariable("id") Long id, Model model) {
-        KindFishDto kindFishDto = kindFishService.getKindFishById(id);
-        model.addAttribute("kindFish", kindFishDto);
+    public String detailsKindFishAndListBlog(@PathVariable("id") Long id,
+                                             @RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "8") int size,
+                                             Model model) {
+        try {
+            KindFishDto kindFishDto = kindFishService.getKindFishById(id);
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+            Page<FishBlogDto> fishBlogDtoPage = fishBlogService.getAllFishBlogByKindFishId(id, pageable);
+            System.out.println("✅ FishBlog List's Size by kindFishId " + id + ": " + fishBlogDtoPage.getContent().size());
+
+            model.addAttribute("kindFish", kindFishDto);
+            model.addAttribute("listFishBlog", fishBlogDtoPage.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", fishBlogDtoPage.getTotalPages());
+            model.addAttribute("kindFishId", id);
+
+        } catch (Exception e) {
+            throw new ResourceInternalServerErrorException(e.getMessage());
+        }
         return "user/kindFishViewAndListBlog";
     }
 

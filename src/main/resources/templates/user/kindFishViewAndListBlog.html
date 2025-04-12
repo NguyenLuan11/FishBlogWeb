@@ -49,17 +49,17 @@
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-                <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(kindFish.fishBlogs)}">
+                <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listFishBlog)}">
                     <h3 th:text="'Blogs of ' + ${kindFish.kindFishName} + ' is empty!'"></h3>
                 </div>
 
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(kindFish.fishBlogs)}">
-                    <div class="col" th:each="fishBlog : ${kindFish.fishBlogs}">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listFishBlog)}">
+                    <div class="col" th:each="fishBlog : ${listFishBlog}">
                         <div class="card h-50 shadow-sm">
                             <div class="post-meta" style="padding: 5px; padding-left: 10px;">
-                                <!--                                <span class="date" style="margin-right: 5px">Created date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(fishBlog.createdDate, 'dd/MM/yyyy')}"></span>-->
-                                <!--                                <br>-->
-                                <span class="date">Modified date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(fishBlog.modifiedDate, 'dd/MM/yyyy')}"></span>
+                                <span class="date">Modified date</span>
+                                <span class="mx-1">•</span>
+                                <span th:text="${#dates.format(fishBlog.modifiedDate, 'dd/MM/yyyy')}"></span>
                             </div>
                             <a th:href="@{'/details-fishBlog/' + ${fishBlog.id}}">
                                 <img th:src="${fishBlog.thumbnailUrl}" height="280px" class="card-img-top" alt="Fish ThumbnailUrl">
@@ -74,6 +74,37 @@
                 </div>
 
             </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center mt-4" th:if="${totalPages > 1}">
+                <nav>
+                    <ul class="pagination">
+
+                        <!-- Button Previous -->
+                        <li th:classappend="${currentPage == 0} ? 'disabled'" class="page-item">
+                            <a class="page-link"
+                               th:href="@{'/details-kindFish/' + ${kindFishId} + '(page=' + (${currentPage} - 1) + ')'}">Previous</a>
+                        </li>
+
+                        <!-- Numbers of page -->
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${i == currentPage} ? 'active'">
+                            <a class="page-link"
+                               th:href="@{'/details-kindFish/' + ${kindFishId} + '(page=' + ${i} + ')'}"
+                               th:text="${i + 1}"></a>
+                        </li>
+
+                        <!-- Button Next -->
+                        <li th:classappend="${currentPage + 1 == totalPages} ? 'disabled'" class="page-item">
+                            <a class="page-link"
+                               th:href="@{'/details-kindFish/' + ${kindFishId} + '(page=' + (${currentPage} + 1) + ')'}">Next</a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div><!-- /Pagination -->
+
 
         </section><!-- /Blogs of kind fish Section -->
 
