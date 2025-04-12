@@ -95,6 +95,6 @@ public class UserViewController {
         } catch (Exception e) {
             throw new ResourceInternalServerErrorException(e.getMessage());
         }
-        return "user/listKindFishView";
+        return "user/allKindFishView";
     }
 }
