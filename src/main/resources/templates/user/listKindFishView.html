@@ -52,6 +52,32 @@
                 </div>
             </div>
 
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center mt-4" th:if="${totalPages > 1}">
+                <nav>
+                    <ul class="pagination">
+
+                        <!-- Button Previous -->
+                        <li th:classappend="${currentPage == 0} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage - 1})}">Previous</a>
+                        </li>
+
+                        <!-- Numbers of page -->
+                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                            th:classappend="${i == currentPage} ? 'active'">
+                            <a class="page-link" th:href="@{'/kind-fishes'(page=${i})}" th:text="${i + 1}"></a>
+                        </li>
+
+                        <!-- Button Next -->
+                        <li th:classappend="${currentPage + 1 == totalPages} ? 'disabled'" class="page-item">
+                            <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage + 1})}">Next</a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div><!-- /Pagination -->
+
+
         </section><!-- /Kind Fishes Category Section -->
     </main>
 

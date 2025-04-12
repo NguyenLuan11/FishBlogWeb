@@ -8,6 +8,8 @@ import com.tnluan.fishblogweb.mapper.KindFishMapper;
 import com.tnluan.fishblogweb.repository.KindFishRepository;
 import com.tnluan.fishblogweb.service.KindFishService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,6 +70,12 @@ public class KindFishServiceImpl implements KindFishService {
     public List<KindFishDto> getAllKindFish() {
         List<KindFish> kindFishList = kindFishRepository.findAll();
         return KindFishMapper.mapKindFishListToDtoList(kindFishList);
+    }
+
+    @Override
+    public Page<KindFishDto> getKindFishPage(Pageable pageable) {
+        Page<KindFish> page = kindFishRepository.findAll(pageable);
+        return page.map(KindFishMapper::mapToKindFishDto);
     }
 
     @Override

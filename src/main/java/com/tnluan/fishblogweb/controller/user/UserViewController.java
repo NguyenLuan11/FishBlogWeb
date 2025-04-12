@@ -5,10 +5,15 @@ import com.tnluan.fishblogweb.exception.ResourceInternalServerErrorException;
 import com.tnluan.fishblogweb.exception.ResourceNotFoundException;
 import com.tnluan.fishblogweb.service.KindFishService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Comparator;
 import java.util.List;
@@ -33,7 +38,7 @@ public class UserViewController {
 
             model.addAttribute("listKindFish", newestFourItems);
         } catch (Exception e) {
-            System.err.println("❌ [ERROR] Error when called kindFishService.getAllKindFish(): " + e.getMessage());
+            System.err.println("❌ [ERROR]: " + e.getMessage());
             throw new ResourceInternalServerErrorException(e.getMessage());
         }
         return "user/homePage";
@@ -57,12 +62,16 @@ public class UserViewController {
     }
 
     @GetMapping("/kind-fishes")
-    public String listKindFishView(Model model) {
+    public String listKindFishView(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "8") int size,
+                                   Model model) {
         try {
-            List<KindFishDto> kindFishDtoList = kindFishService.getAllKindFish();
-            // Sort by createdDate decrease
-            kindFishDtoList.sort(Comparator.comparing(KindFishDto::getCreatedDate).reversed());
-            model.addAttribute("listKindFish", kindFishDtoList);
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+            Page<KindFishDto> kindFishDtoPage = kindFishService.getKindFishPage(pageable);
+
+            model.addAttribute("listKindFish", kindFishDtoPage.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", kindFishDtoPage.getTotalPages());
         } catch (Exception e) {
             throw new ResourceInternalServerErrorException(e.getMessage());
         }
