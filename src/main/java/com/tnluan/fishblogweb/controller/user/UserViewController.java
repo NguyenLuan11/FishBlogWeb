@@ -3,7 +3,6 @@ package com.tnluan.fishblogweb.controller.user;
 import com.tnluan.fishblogweb.dto.FishBlogDto;
 import com.tnluan.fishblogweb.dto.KindFishDto;
 import com.tnluan.fishblogweb.exception.ResourceInternalServerErrorException;
-import com.tnluan.fishblogweb.exception.ResourceNotFoundException;
 import com.tnluan.fishblogweb.service.FishBlogService;
 import com.tnluan.fishblogweb.service.KindFishService;
 import lombok.AllArgsConstructor;
