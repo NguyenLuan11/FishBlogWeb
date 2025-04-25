@@ -64,4 +64,9 @@ public class User {
         this.phone = phone;
         this.address = address;
     }
+
+    public User(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
 }

@@ -47,4 +47,9 @@ public class UserDto {
         this.registeredDate = registeredDate;
         this.modifiedDate = modifiedDate;
     }
+
+    public UserDto(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
 }

@@ -1,8 +1,10 @@
 package com.tnluan.fishblogweb.controller.admin;
 
 import com.tnluan.fishblogweb.dto.KindFishDto;
+import com.tnluan.fishblogweb.dto.UserDto;
 import com.tnluan.fishblogweb.service.FishBlogService;
 import com.tnluan.fishblogweb.service.KindFishService;
+import com.tnluan.fishblogweb.service.UserService;
 import com.tnluan.fishblogweb.util.Constant;
 import com.tnluan.fishblogweb.util.UploadService;
 import lombok.AllArgsConstructor;
@@ -16,11 +18,25 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/admin")
 public class AdminManageController {
 
+    private UserService userService;
+
     private KindFishService kindFishService;
 
     private FishBlogService fishBlogService;
 
     private UploadService uploadService;
+
+    // ADMIN MANAGEMENT
+    @GetMapping("/login-admin")
+    public String loginPage(Model model) {
+        model.addAttribute("admin", new UserDto());
+        return "admin/loginAdmin";
+    }
+
+    @PostMapping("/login-admin")
+    public String loginAdmin(@ModelAttribute UserDto userDto) {
+        return "admin/adminHomePage";
+    }
 
     // KIND FISH MANAGEMENT
     @GetMapping("/create-kindFish")
