@@ -44,8 +44,8 @@
                                     <a th:href="@{'/details-kindFish/' + ${kindFish.id}}" th:text="${kindFish.kindFishName}"></a>
                                 </h3>
                                 <div class="card-text"
-                                     th:utext="${#strings.length(kindFish.description) > 270
-                                                    ? #strings.substring(kindFish.description, 0, 270) + ' ...'
+                                     th:utext="${#strings.length(kindFish.description) > 300
+                                                    ? #strings.substring(kindFish.description, 0, 300) + ' ...'
                                                     : kindFish.description}">
                                 </div>
                             </div>
