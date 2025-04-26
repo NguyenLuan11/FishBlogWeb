@@ -70,6 +70,10 @@ public class AdminManageController {
     @PostMapping("/create-kindFish")
     public String createNewKindFish(@ModelAttribute KindFishDto kindFishDto,
                                     @RequestParam("image") MultipartFile imageFile) {
+//        System.out.println("Received kind fish name: " + kindFishDto.getKindFishName());
+//        System.out.println("Description: " + kindFishDto.getDescription());
+//        System.out.println("File name: " + imageFile.getOriginalFilename());
+
         String imageUrl = uploadService.UploadImage(imageFile, Constant.uploadImageKindFishDir);
         kindFishDto.setImageUrl(imageUrl);
 

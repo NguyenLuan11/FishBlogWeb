@@ -28,4 +28,10 @@ public class KindFishDto {
 
     // 1 - N with FishBlog
     private List<FishBlogDto> fishBlogs;
+
+    public KindFishDto(String kindFishName, String imageUrl, String description) {
+        this.kindFishName = kindFishName;
+        this.imageUrl = imageUrl;
+        this.description = description;
+    }
 }
