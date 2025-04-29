@@ -61,24 +61,40 @@ public class AdminManageController {
         return "admin/kindFish/listKindFishManager";
     }
 
-    @GetMapping("/create-kindFish")
-    public String createNewKindFishView(Model model) {
-        model.addAttribute("kindFish", new KindFishDto());
+    @GetMapping({"/create-kindFish", "/update-kindFish/{id}"})
+    public String showKindFishForm(@PathVariable(value = "id", required = false) Long id,
+                                    Model model) {
+        KindFishDto kindFishDto;
+        if (id != null) {
+            kindFishDto = kindFishService.getKindFishById(id);
+        } else {
+            kindFishDto = new KindFishDto();
+        }
+        model.addAttribute("kindFish", kindFishDto);
         return "admin/kindFish/kindFishComponent";
     }
 
-    @PostMapping("/create-kindFish")
+    @PostMapping("/save-kindFish")
     public String createNewKindFish(@ModelAttribute KindFishDto kindFishDto,
                                     @RequestParam("image") MultipartFile imageFile) {
-//        System.out.println("Received kind fish name: " + kindFishDto.getKindFishName());
-//        System.out.println("Description: " + kindFishDto.getDescription());
-//        System.out.println("File name: " + imageFile.getOriginalFilename());
 
-        String imageUrl = uploadService.UploadImage(imageFile, Constant.uploadImageKindFishDir);
-        kindFishDto.setImageUrl(imageUrl);
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String imageUrl = uploadService.UploadImage(imageFile, Constant.uploadImageKindFishDir);
+            kindFishDto.setImageUrl(imageUrl);
+        } else {
+            KindFishDto existingKindFish = kindFishService.getKindFishById(kindFishDto.getId());
+            if (existingKindFish != null) {
+                kindFishDto.setImageUrl(existingKindFish.getImageUrl());
+            }
+        }
 
-        kindFishService.createKindFish(kindFishDto);
-        return "admin/kindFish/listKindFishManager";
+        if (kindFishDto.getId() == null) {
+            kindFishService.createKindFish(kindFishDto);
+        } else {
+            kindFishService.updateKindFishById(kindFishDto.getId(), kindFishDto);
+        }
+
+        return "redirect:/admin/kindFish-management";
     }
 
     // FISH BLOG MANAGEMENT
