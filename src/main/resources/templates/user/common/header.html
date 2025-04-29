@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="headUserPage-html">
+<head th:fragment="headUserPage-html(title)">
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta name="description" content="">
     <meta name="keywords" content="">
+    <title th:replace="${title}">Header</title>
 
     <!-- Favicons -->
 

@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<head th:replace="user/common/header :: headUserPage-html(~{::title})">
     <title>Contact Us</title>
 </head>
-<head th:replace="~{user/common/header :: headUserPage-html}"></head>
 <body>
     <header th:replace="~{user/common/header :: headerUserPage-html}"></header>
 
