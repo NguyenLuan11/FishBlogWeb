@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:replace="${title}">Header FishBlogs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .avatar {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <body>
+    <!-- Header Fragment -->
+    <header th:fragment="headerAdmin-html">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+            <a class="navbar-brand" href="#" th:href="@{/admin/home}">FishBlogs</a>
 
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/home}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/profile}">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/kindfish}">Kind Fish</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/fishblogs}">Fish Blogs</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/users}">Users</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center">
+                    <span class="text-white me-2" th:text="${session.admin.userName}">Admin</span>
+                    <img th:src="@{${session.admin.avatarUrl}}" alt="avatar" class="avatar me-3">
+                    <a class="btn btn-outline-light btn-sm" th:href="@{/admin/logout}">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
 </body>
 </html>

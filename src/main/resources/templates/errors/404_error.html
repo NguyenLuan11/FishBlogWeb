@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<head th:replace="~{user/common/header :: headUserPage-html(~{::title})}">
     <title>404 ERROR</title>
 </head>
-<head th:replace="~{user/common/header :: headUserPage-html}"></head>
 <body>
     <div class="d-flex flex-column justify-content-around align-items-center p-4">
         <div class="m-4">

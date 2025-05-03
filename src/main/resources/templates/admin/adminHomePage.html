@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/common/headerAdmin :: head(~{::title})">
+    <title>Admin Home</title>
 </head>
 <body>
+    <!-- Header -->
+    <div th:replace="~{admin/common/headerAdmin :: headerAdmin-html}"></div>
 
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <a href="/admin/kindFish" class="btn btn-outline-success w-100 p-4 shadow-sm">Manage Kind Fish</a>
+            </div>
+            <div class="col-md-4">
+                <a href="/admin/fishBlogs" class="btn btn-outline-primary w-100 p-4 shadow-sm">Manage Fish Blogs</a>
+            </div>
+            <div class="col-md-4">
+                <a href="/admin/users" class="btn btn-outline-info w-100 p-4 shadow-sm">Manage Users</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{admin/common/footerAdmin :: footerAdmin-html}"></div>
 </body>
 </html>

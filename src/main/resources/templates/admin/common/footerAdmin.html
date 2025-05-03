@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Footer</title>
 </head>
 <body>
-
+    <!-- Footer Fragment -->
+    <div th:fragment="footerAdmin-html">
+        <footer class="bg-light text-center text-muted py-3 mt-5">
+            <div>© <span th:text="${#dates.format(#dates.createNow(), 'dd-MM-yyyy')}"></span> - FishBlogs</div>
+        </footer>
+    </div>
 </body>
 </html>

@@ -1,22 +1,14 @@
 package com.tnluan.fishblogweb.controller.admin;
 
-import com.tnluan.fishblogweb.dto.KindFishDto;
 import com.tnluan.fishblogweb.dto.UserDto;
-import com.tnluan.fishblogweb.exception.ResourceInternalServerErrorException;
-import com.tnluan.fishblogweb.service.FishBlogService;
-import com.tnluan.fishblogweb.service.KindFishService;
+import com.tnluan.fishblogweb.exception.ResourceNotFoundException;
 import com.tnluan.fishblogweb.service.UserService;
-import com.tnluan.fishblogweb.util.Constant;
 import com.tnluan.fishblogweb.util.UploadService;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @Controller
@@ -25,83 +17,48 @@ public class AdminManageController {
 
     private UserService userService;
 
-    private KindFishService kindFishService;
-
-    private FishBlogService fishBlogService;
-
     private UploadService uploadService;
 
-    // ADMIN MANAGEMENT
-    @GetMapping("/login-admin")
-    public String loginPage(Model model) {
-        model.addAttribute("admin", new UserDto());
-        return "admin/loginAdmin";
-    }
+    @GetMapping("/home")
+    public String adminHome(Model model, HttpSession session) {
+        UserDto admin = (UserDto) session.getAttribute("admin");
+        if (admin == null || !"ADMIN".equalsIgnoreCase(admin.getRole())) {
+            return "redirect:/admin/login";
+        }
 
-    @PostMapping("/login-admin")
-    public String loginAdmin(@ModelAttribute UserDto userDto) {
+        model.addAttribute("admin", admin);
         return "admin/adminHomePage";
     }
 
-    // KIND FISH MANAGEMENT
-    @GetMapping("/kindFish-management")
-    public String listKindFishView(@RequestParam(defaultValue = "0") int page,
-                                   @RequestParam(defaultValue = "12") int size,
+    @GetMapping("/login")
+    public String loginPage(Model model) {
+        model.addAttribute("adminLogin", new UserDto());
+        return "admin/loginAdmin";
+    }
+
+    @PostMapping("/login")
+    public String LoginAdmin(@ModelAttribute("adminLogin") UserDto adminLogin,
+                                   HttpSession session,
                                    Model model) {
         try {
-            Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-            Page<KindFishDto> kindFishDtoPage = kindFishService.getKindFishPage(pageable);
+            UserDto loginAdmin = userService.loginAccountUser(adminLogin.getUserName(), adminLogin.getPassword());
 
-            model.addAttribute("listKindFish", kindFishDtoPage.getContent());
-            model.addAttribute("currentPage", page);
-            model.addAttribute("totalPages", kindFishDtoPage.getTotalPages());
-        } catch (Exception e) {
-            throw new ResourceInternalServerErrorException(e.getMessage());
-        }
-        return "admin/kindFish/listKindFishManager";
-    }
-
-    @GetMapping({"/create-kindFish", "/update-kindFish/{id}"})
-    public String showKindFishForm(@PathVariable(value = "id", required = false) Long id,
-                                    Model model) {
-        KindFishDto kindFishDto;
-        if (id != null) {
-            kindFishDto = kindFishService.getKindFishById(id);
-        } else {
-            kindFishDto = new KindFishDto();
-        }
-        model.addAttribute("kindFish", kindFishDto);
-        return "admin/kindFish/kindFishComponent";
-    }
-
-    @PostMapping("/save-kindFish")
-    public String createNewKindFish(@ModelAttribute KindFishDto kindFishDto,
-                                    @RequestParam("image") MultipartFile imageFile) {
-
-        if (imageFile != null && !imageFile.isEmpty()) {
-            String imageUrl = uploadService.UploadImage(imageFile, Constant.uploadImageKindFishDir);
-            kindFishDto.setImageUrl(imageUrl);
-        } else {
-            KindFishDto existingKindFish = kindFishService.getKindFishById(kindFishDto.getId());
-            if (existingKindFish != null) {
-                kindFishDto.setImageUrl(existingKindFish.getImageUrl());
+            if (!"ADMIN".equalsIgnoreCase(loginAdmin.getRole())) {
+                model.addAttribute("message", "You are not authorized to access the admin panel!");
+                return "admin/loginAdmin";
             }
-        }
 
-        if (kindFishDto.getId() == null) {
-            kindFishService.createKindFish(kindFishDto);
-        } else {
-            kindFishService.updateKindFishById(kindFishDto.getId(), kindFishDto);
+            session.setAttribute("admin", loginAdmin);
+            return "redirect:/admin/home";
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("message", e.getMessage());
+            return "admin/loginAdmin";
         }
-
-        return "redirect:/admin/kindFish-management";
     }
 
-    // FISH BLOG MANAGEMENT
-
-
-    // USER MANAGEMENT
-
-
-
+    @GetMapping("/logout")
+    public String logoutAdmin(HttpSession session) {
+        session.invalidate();
+        return "redirect:/admin/login";
+    }
 }
