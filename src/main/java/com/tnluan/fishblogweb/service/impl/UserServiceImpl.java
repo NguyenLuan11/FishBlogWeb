@@ -8,6 +8,7 @@ import com.tnluan.fishblogweb.exception.ResourceUnprocessableEntityException;
 import com.tnluan.fishblogweb.mapper.UserMapper;
 import com.tnluan.fishblogweb.repository.UserRepository;
 import com.tnluan.fishblogweb.service.UserService;
+import com.tnluan.fishblogweb.util.BcryptPass;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,8 @@ public class UserServiceImpl implements UserService {
 
         // Check exist userName or email
         checkExistInfoUser(userDto.getUserName(), userDto.getEmail());
+        // Encrypt password
+        userDto.setPassword(BcryptPass.encrypt(userDto.getPassword()));
 
         User user = UserMapper.mapToUserEntity(userDto);
         User saveUser = userRepository.save(user);
@@ -103,7 +106,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto loginAccountUser(String userName, String password) {
-        User loginUser = userRepository.loginAccountUser(userName, password).orElseThrow(
+        String encryptPass = BcryptPass.encrypt(password);
+        User loginUser = userRepository.loginAccountUser(userName, encryptPass).orElseThrow(
                 () -> new ResourceNotFoundException("User's account isn't exists! Maybe wrong username or password!")
         );
         return UserMapper.mapToUserDto(loginUser);
@@ -121,11 +125,11 @@ public class UserServiceImpl implements UserService {
         User user = findUserById(id);
 
         // Check match password
-        if (!user.getPassword().equals(oldPassword)) {
+        if (!BcryptPass.matchesPassword(oldPassword, user.getPassword())) {
             throw new ResourceUnprocessableEntityException("Current password is incorrect! Please enter the correct current password!");
         }
 
-        user.setPassword(newPassword);
+        user.setPassword(BcryptPass.encrypt(newPassword));
         User updatePasswordUser = userRepository.save(user);
         return UserMapper.mapToUserDto(updatePasswordUser);
     }
