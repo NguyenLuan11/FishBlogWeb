@@ -16,11 +16,13 @@
             <input th:field="*{userName}" type="text" placeholder="Enter your username" required>
             <input th:field="*{password}" type="password" placeholder="Enter your password" required>
             <button type="submit">LOGIN</button>
+
+            <p th:if="${message}" th:text="${message}" style="color:red;"></p>
         </form>
     </div>
 
-    <script th:if="${message} != null">
-        alert([[${message}]]);
-    </script>
+<!--    <script th:if="${message} != null">-->
+<!--        alert([[${message}]]);-->
+<!--    </script>-->
 </body>
 </html>

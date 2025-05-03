@@ -16,8 +16,7 @@ public class DataInitializer {
     @PostConstruct
     public void init() {
 
-        boolean existAdmin = userRepository.findByUserNameAndPasswordAndRole("ADMIN",
-                BcryptPass.encrypt("ADMIN"), "ADMIN").isPresent();
+        boolean existAdmin = userRepository.findByUserNameAndRole("ADMIN", "ADMIN").isPresent();
 
         if (!existAdmin) {
             User defaultAdmin = new User();

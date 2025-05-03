@@ -41,7 +41,13 @@ public class AdminManageController {
                                    HttpSession session,
                                    Model model) {
         try {
+//            System.out.println("Admin name: " + adminLogin.getUserName());
+//            System.out.println("Admin pass: " + adminLogin.getPassword());
+
             UserDto loginAdmin = userService.loginAccountUser(adminLogin.getUserName(), adminLogin.getPassword());
+
+//            System.out.println("==> loginAdmin: " + loginAdmin);
+//            System.out.println("==> loginAdmin.getRole(): " + loginAdmin.getRole());
 
             if (!"ADMIN".equalsIgnoreCase(loginAdmin.getRole())) {
                 model.addAttribute("message", "You are not authorized to access the admin panel!");

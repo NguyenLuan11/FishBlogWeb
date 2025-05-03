@@ -106,10 +106,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto loginAccountUser(String userName, String password) {
-        String encryptPass = BcryptPass.encrypt(password);
-        User loginUser = userRepository.loginAccountUser(userName, encryptPass).orElseThrow(
+        User loginUser = userRepository.findByUserName(userName).orElseThrow(
                 () -> new ResourceNotFoundException("User's account isn't exists! Maybe wrong username or password!")
         );
+
+        if (!BcryptPass.matchesPassword(password, loginUser.getPassword())) {
+            throw new ResourceNotFoundException("Invalid username or password!");
+        }
+
         return UserMapper.mapToUserDto(loginUser);
     }
 
