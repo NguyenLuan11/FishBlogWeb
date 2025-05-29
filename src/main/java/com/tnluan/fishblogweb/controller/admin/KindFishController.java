@@ -1,11 +1,13 @@
 package com.tnluan.fishblogweb.controller.admin;
 
 import com.tnluan.fishblogweb.dto.KindFishDto;
+import com.tnluan.fishblogweb.dto.UserDto;
 import com.tnluan.fishblogweb.exception.ResourceInternalServerErrorException;
 import com.tnluan.fishblogweb.service.FishBlogService;
 import com.tnluan.fishblogweb.service.KindFishService;
 import com.tnluan.fishblogweb.util.Constant;
 import com.tnluan.fishblogweb.util.UploadService;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,9 +47,17 @@ public class KindFishController {
         return "admin/kindFish/listKindFishManager";
     }
 
+    // CREATE - UPDATE KIND FISH
     @GetMapping({"/create-kindFish", "/update-kindFish/{id}"})
     public String showKindFishForm(@PathVariable(value = "id", required = false) Long id,
-                                   Model model) {
+                                   Model model,
+                                   HttpSession session) {
+
+        UserDto admin = (UserDto) session.getAttribute("admin");
+        if (admin == null || !"ADMIN".equalsIgnoreCase(admin.getRole())) {
+            return "redirect:/admin/login";
+        }
+
         KindFishDto kindFishDto;
         if (id != null) {
             kindFishDto = kindFishService.getKindFishById(id);
@@ -80,5 +90,7 @@ public class KindFishController {
 
         return "redirect:/admin/kindFish-management";
     }
+
+    // DELETE KIND FISH
 
 }

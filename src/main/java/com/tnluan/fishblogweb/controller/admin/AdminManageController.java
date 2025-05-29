@@ -19,6 +19,7 @@ public class AdminManageController {
 
     private UploadService uploadService;
 
+    // HOME PAGE
     @GetMapping("/home")
     public String adminHome(Model model, HttpSession session) {
         UserDto admin = (UserDto) session.getAttribute("admin");
@@ -30,6 +31,7 @@ public class AdminManageController {
         return "admin/adminHomePage";
     }
 
+    // LOGIN ACTIONS
     @GetMapping("/login")
     public String loginPage(Model model) {
         model.addAttribute("adminLogin", new UserDto());
@@ -62,6 +64,7 @@ public class AdminManageController {
         }
     }
 
+    // LOGOUT ACTIONS
     @GetMapping("/logout")
     public String logoutAdmin(HttpSession session) {
         session.invalidate();
