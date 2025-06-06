@@ -2,9 +2,13 @@ package com.tnluan.fishblogweb.controller.user;
 
 import com.tnluan.fishblogweb.dto.FishBlogDto;
 import com.tnluan.fishblogweb.dto.KindFishDto;
+import com.tnluan.fishblogweb.dto.UserDto;
 import com.tnluan.fishblogweb.exception.ResourceInternalServerErrorException;
+import com.tnluan.fishblogweb.exception.ResourceNotFoundException;
 import com.tnluan.fishblogweb.service.FishBlogService;
 import com.tnluan.fishblogweb.service.KindFishService;
+import com.tnluan.fishblogweb.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,9 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
@@ -22,6 +24,8 @@ import java.util.List;
 @AllArgsConstructor
 @Controller
 public class UserViewController {
+
+    private UserService userService;
 
     private KindFishService kindFishService;
 
@@ -55,6 +59,33 @@ public class UserViewController {
     @GetMapping("/introduce")
     public String introducePage() {
         return "user/introducePage";
+    }
+
+    @GetMapping("/login")
+    public String loginPage(Model model) {
+        model.addAttribute("userLogin", new UserDto());
+        return "user/loginUser";
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@ModelAttribute("userLogin") UserDto userLogin,
+                            HttpSession session,
+                            Model model) {
+        try {
+            UserDto loginUser = userService.loginAccountUser(userLogin.getUserName(), userLogin.getPassword());
+
+            session.setAttribute("user", loginUser);
+            return "redirect:/";
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("message", e.getMessage());
+            return "user/loginUser";
+        }
+    }
+
+    @GetMapping("/register")
+    public String registerPage(Model model) {
+        model.addAttribute("userRegister", new UserDto());
+        return "user/registerUser";
     }
 
     @GetMapping("/details-kindFish/{id}")
