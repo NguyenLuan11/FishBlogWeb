@@ -37,18 +37,16 @@
             <ul>
                 <li><a th:href="@{/}" class="active">Home</a></li>
                 <li><a th:href="@{/introduce}">Introduce</a></li>
-                <li><a href="">Post</a></li>
+                <li><a th:href="@{#}">Post</a></li>
                 <li class="dropdown"><a th:href="@{#}"><span>Categories</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                     <ul>
                         <li><a th:href="@{/kind-fishes}">Kind Fishes</a></li>
-                        <li class="dropdown"><a th:href="@{#}"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <li class="dropdown"><a th:href="@{#}"><span>Aquatic</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                                <li><a th:href="@{#}">Deep Dropdown 1</a></li>
-                                <li><a th:href="@{#}">Deep Dropdown 2</a></li>
-                                <li><a th:href="@{#}">Deep Dropdown 3</a></li>
+                                <li><a th:href="@{#}">Aquatic plants</a></li>
+                                <li><a th:href="@{#}">Set up tank</a></li>
                             </ul>
                         </li>
-                        <li><a href="">Category 2</a></li>
                     </ul>
                 </li>
                 <li><a th:href="@{/contact}">Contact</a></li>
@@ -57,10 +55,8 @@
         </nav>
 
         <div class="header-social-links">
-            <a th:href="@{#}" class="twitter"><i class="bi bi-twitter-x"></i></a>
-            <a th:href="@{#}" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a th:href="@{#}" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a th:href="@{#}" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            <a th:href="@{/login}" class="link-success">LOGIN</a>
+            <a th:href="@{/register}" class="link-danger">REGISTER</a>
         </div>
 
     </div>
