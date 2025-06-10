@@ -33,7 +33,12 @@ public class KindFishController {
     @GetMapping("/kindFish-management")
     public String listKindFishView(@RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "12") int size,
-                                   Model model) {
+                                   Model model, HttpSession session) {
+        UserDto admin = (UserDto) session.getAttribute("admin");
+        if (admin == null || !"ADMIN".equalsIgnoreCase(admin.getRole())) {
+            return "redirect:/admin/login";
+        }
+
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
             Page<KindFishDto> kindFishDtoPage = kindFishService.getKindFishPage(pageable);
@@ -46,6 +51,9 @@ public class KindFishController {
         }
         return "admin/kindFish/listKindFishManager";
     }
+
+    // GET KIND FISH
+
 
     // CREATE - UPDATE KIND FISH
     @GetMapping({"/create-kindFish", "/update-kindFish/{id}"})
