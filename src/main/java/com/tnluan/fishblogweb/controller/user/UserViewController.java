@@ -5,6 +5,7 @@ import com.tnluan.fishblogweb.dto.KindFishDto;
 import com.tnluan.fishblogweb.dto.UserDto;
 import com.tnluan.fishblogweb.exception.ResourceInternalServerErrorException;
 import com.tnluan.fishblogweb.exception.ResourceNotFoundException;
+import com.tnluan.fishblogweb.exception.ResourceUnprocessableEntityException;
 import com.tnluan.fishblogweb.service.FishBlogService;
 import com.tnluan.fishblogweb.service.KindFishService;
 import com.tnluan.fishblogweb.service.UserService;
@@ -82,10 +83,31 @@ public class UserViewController {
         }
     }
 
+    @GetMapping("/logout")
+    public String logoutUser(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+
     @GetMapping("/register")
     public String registerPage(Model model) {
         model.addAttribute("userRegister", new UserDto());
         return "user/registerUser";
+    }
+
+    @PostMapping("/register")
+    public String registrationUser(@ModelAttribute("userRegister") UserDto userRegister,
+                                    HttpSession session,
+                                    Model model) {
+        try {
+            UserDto registrationUser = userService.createUser(userRegister);
+
+            session.setAttribute("user", registrationUser);
+            return "redirect:/";
+        } catch (ResourceUnprocessableEntityException e) {
+            model.addAttribute("message", e.getMessage());
+            return "user/registerUser";
+        }
     }
 
     @GetMapping("/details-kindFish/{id}")
