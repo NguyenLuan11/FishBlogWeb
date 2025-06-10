@@ -39,7 +39,7 @@
                                 <h3 class="card-title">
                                     <a th:href="@{'/details-kindFish/' + ${kindFish.id}}" th:text="${kindFish.kindFishName}"></a>
                                 </h3>
-                                <div class="card-text"
+                                <div class="card-text" style="text-align: justify;"
                                      th:utext="${#strings.length(kindFish.description) > 300
                                                     ? #strings.substring(kindFish.description, 0, 300) + ' ...'
                                                     : kindFish.description}">

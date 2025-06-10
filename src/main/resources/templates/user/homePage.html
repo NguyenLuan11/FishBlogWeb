@@ -41,7 +41,7 @@
                                 <h3 class="card-title">
                                     <a th:href="@{'/details-kindFish/' + ${kindFish.id}}" th:text="${kindFish.kindFishName}"></a>
                                 </h3>
-                                <div class="card-text"
+                                <div class="card-text"  style="text-align: justify;"
                                      th:utext="${#strings.length(kindFish.description) > 300
                                                     ? #strings.substring(kindFish.description, 0, 300) + ' ...'
                                                     : kindFish.description}">
@@ -67,6 +67,13 @@
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
 
+                <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listAquaticPlants)}">
+                    <h3>List Aquatic plants is empty!</h3>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listAquaticPlants)}">
+                </div>
+
             </div>
 
         </section><!-- /Aquatic plants Category Section -->
@@ -83,6 +90,13 @@
             </div><!-- End Section Title -->
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listSetUpTank)}">
+                    <h3>List Set up tank is empty!</h3>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listSetUpTank)}">
+                </div>
 
             </div>
 

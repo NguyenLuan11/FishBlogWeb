@@ -25,10 +25,10 @@
             <div class="container mt-0" data-aos="fade-up" data-aos-delay="100">
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
                     <div class="col">
-                        <img th:src="${kindFish.imageUrl}" height="300px" class="card-img-top" alt="Fish Image">
+                        <img th:src="${kindFish.imageUrl}" height="300px" class="img-fluid" alt="Fish Image">
                     </div>
                     <div class="col">
-                        <div class="fs-5" th:utext="${kindFish.description}"></div>
+                        <div class="fs-5" style="text-align: justify; text-indent: 2em;" th:utext="${kindFish.description}"></div>
                     </div>
                 </div>
             </div>

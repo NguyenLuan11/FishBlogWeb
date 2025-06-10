@@ -1,10 +1,96 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>List Kind Of Fish</title>
-</head>
+<head th:replace="admin/common/headerAdmin :: head('List Kind Of Fish')"></head>
 <body>
+
+<!-- Header -->
+<header th:replace="~{admin/common/headerAdmin :: headerAdmin-html}"></header>
+
+<!-- Main Content -->
+<main class="main p-3">
+    <!-- Kind Fishes Category Section -->
+    <section id="kindFish-category" class="kindFish-category section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <div class="section-title-container d-flex align-items-center justify-content-center">
+                <h1 class="text-success fw-bold text-uppercase">Kind of fishes</h1>
+            </div>
+        </div><!-- End Section Title -->
+
+        <!-- LIST KIND OF FISH -->
+        <div class="container mt-0" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="d-flex align-content-center justify-content-between">
+                <a th:href="@{/admin/create-kindFish}" class="btn btn-success">Add New Kind Fish</a>
+
+                <div class="search-container">
+                    <input type="text" class="form-control search-input" placeholder="Search...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </div>
+            <br>
+
+            <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listKindFish)}">
+                <h3>List kind of fish is empty!</h3>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listKindFish)}">
+                <div class="col" th:each="kindFish : ${listKindFish}">
+                    <div class="card h-100 shadow-sm">
+                        <div class="post-meta" style="padding: 5px; padding-left: 10px;">
+                            <!--                                <span class="date" style="margin-right: 5px">Created date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.createdDate, 'dd/MM/yyyy')}"></span>-->
+                            <!--                                <br>-->
+                            <span class="date">Modified date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
+                        </div>
+                        <a th:href="@{'/details-kindFish/' + ${kindFish.id}}">
+                            <img th:src="${kindFish.imageUrl}" style="height:220px; object-fit:cover;" class="card-img-top" alt="Fish Image">
+                        </a>
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                <a th:href="@{'/details-kindFish/' + ${kindFish.id}}" th:text="${kindFish.kindFishName}" class=" link-success link-offset-2 link-underline link-underline-opacity-0"></a>
+                            </h3>
+                            <div class="card-text" style="text-align: justify;"
+                                 th:utext="${#strings.length(kindFish.description) > 300
+                                                    ? #strings.substring(kindFish.description, 0, 300) + ' ...'
+                                                    : kindFish.description}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-center mt-4" th:if="${totalPages > 1}">
+            <nav>
+                <ul class="pagination">
+
+                    <!-- Button Previous -->
+                    <li th:classappend="${currentPage == 0} ? 'disabled'" class="page-item">
+                        <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage - 1})}">Previous</a>
+                    </li>
+
+                    <!-- Numbers of page -->
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                        th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" th:href="@{'/kind-fishes'(page=${i})}" th:text="${i + 1}"></a>
+                    </li>
+
+                    <!-- Button Next -->
+                    <li th:classappend="${currentPage + 1 == totalPages} ? 'disabled'" class="page-item">
+                        <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage + 1})}">Next</a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div><!-- /Pagination -->
+
+    </section><!-- /Kind Fishes Category Section -->
+</main>
+
+<!-- Footer -->
+<footer th:replace="~{admin/common/footerAdmin :: footerAdmin-html}"></footer>
 
 </body>
 </html>
