@@ -54,9 +54,16 @@
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <div class="header-social-links">
+        <div class="header-social-links" th:if="${session.user} == null">
             <a th:href="@{/login}" class="link-success">LOGIN</a>
             <a th:href="@{/register}" class="link-danger">REGISTER</a>
+        </div>
+
+        <div class="header-social-links" th:unless="${session.user} == null">
+            <span class="text-white me-2" th:text="${session.user.userName}"></span>
+            <img th:if="${session.user.avatarUrl} == null" th:src="@{/img/avatar_user.png}" alt="avatar user" class="avatar me-3">
+            <img th:unless="${session.user.avatarUrl} == null" th:src="@{${session.user.avatarUrl}}" alt="avatar user" class="avatar me-3">
+            <a class="btn btn-outline-light btn-sm" th:href="@{/logout}">Logout</a>
         </div>
 
     </div>
