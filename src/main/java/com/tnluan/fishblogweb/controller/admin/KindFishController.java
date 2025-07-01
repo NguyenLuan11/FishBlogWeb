@@ -52,7 +52,24 @@ public class KindFishController {
         return "admin/kindFish/listKindFishManager";
     }
 
-    // GET KIND FISH
+    // DETAILS KIND FISH
+    @GetMapping("/details-kindFish/{id}")
+    public String detailsKindFish(@PathVariable("id") Long id, Model model,
+                                  HttpSession session) {
+        UserDto admin = (UserDto) session.getAttribute("admin");
+        if (admin == null || !"ADMIN".equalsIgnoreCase(admin.getRole())) {
+            return "redirect:/admin/login";
+        }
+
+        try {
+            KindFishDto kindFishDto = kindFishService.getKindFishById(id);
+
+            model.addAttribute("kindFish", kindFishDto);
+        } catch (Exception e) {
+            throw new ResourceInternalServerErrorException(e.getMessage());
+        }
+        return "admin/kindFish/detailsKindFish";
+    }
 
 
     // CREATE - UPDATE KIND FISH
