@@ -43,17 +43,21 @@
                             <!--                                <br>-->
                             <span class="date">Modified date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
                         </div>
-                        <a th:href="@{'/details-kindFish/' + ${kindFish.id}}">
+                        <a th:href="@{'/admin/details-kindFish/' + ${kindFish.id}}">
                             <img th:src="${kindFish.imageUrl}" style="height:220px; object-fit:cover;" class="card-img-top" alt="Fish Image">
                         </a>
                         <div class="card-body">
                             <h3 class="card-title">
-                                <a th:href="@{'/details-kindFish/' + ${kindFish.id}}" th:text="${kindFish.kindFishName}" class=" link-success link-offset-2 link-underline link-underline-opacity-0"></a>
+                                <a th:href="@{'/admin/details-kindFish/' + ${kindFish.id}}" th:text="${kindFish.kindFishName}" class=" link-success link-offset-2 link-underline link-underline-opacity-0"></a>
                             </h3>
-                            <div class="card-text" style="text-align: justify;"
+                            <div class="card-text" style="text-align: justify; height: 200px;"
                                  th:utext="${#strings.length(kindFish.description) > 300
                                                     ? #strings.substring(kindFish.description, 0, 300) + ' ...'
                                                     : kindFish.description}">
+                            </div>
+                            <div class="d-flex justify-content-around">
+                                <a class="btn btn-outline-info" th:href="@{'/admin/update-kindFish/' + ${kindFish.id}}">Update</a>
+                                <a class="btn btn-outline-danger" th:href="@{'/admin/delete-kindFish/' + ${kindFish.id}}">Delete</a>
                             </div>
                         </div>
                     </div>
