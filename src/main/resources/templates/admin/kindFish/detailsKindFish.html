@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/common/headerAdmin :: head('Details Of ' + ${kindFish.kindFishName})"></head>
 <body>
+
+<!-- Header -->
+<header th:replace="~{admin/common/headerAdmin :: headerAdmin-html}"></header>
+
+<!-- Main Content -->
+<main class="main p-5">
+
+    <!-- Kind Fish Section -->
+    <section id="lifestyle-category" class="lifestyle-category section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <div class="section-title-container d-flex align-items-center p-3">
+                <h2 th:text="${kindFish.kindFishName}"></h2>
+            </div>
+        </div><!-- End Section Title -->
+
+        <!-- KIND OF FISH -->
+        <div class="container mt-0" data-aos="fade-up" data-aos-delay="100">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
+                <div class="col p-1">
+                    <img th:src="${kindFish.imageUrl}" height="300px" class="img-fluid" alt="Fish Image">
+                </div>
+                <div class="col">
+                    <div class="fs-6" style="text-align: justify; text-indent: 2em;" th:utext="${kindFish.description}"></div>
+
+                    <div class="d-flex flex-column justify-content-end align-items-end">
+                        <span th:text="${'Created date • ' + #dates.format(kindFish.createdDate, 'dd/MM/yyyy')}"></span>
+                        <span th:text="${'Modified date • ' + #dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
+                <div class="col p-1">
+                    <a class="btn btn-info btn-block w-100" th:href="@{'/admin/update-kindFish/' + ${kindFish.id}}">Update</a>
+                </div>
+                <div class="col p-1">
+                    <a class="btn btn-success btn-block w-100" th:href="@{/admin/kindFish-management}">Return List of Kind Fishes</a>
+                </div>
+            </div>
+        </div>
+
+    </section><!-- /Kind Fish Section -->
+
+</main>
+
+<!-- Footer -->
+<footer th:replace="~{admin/common/footerAdmin :: footerAdmin-html}"></footer>
 
 </body>
 </html>
