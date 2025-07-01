@@ -29,8 +29,8 @@
                     <div class="fs-6" style="text-align: justify; text-indent: 2em;" th:utext="${kindFish.description}"></div>
 
                     <div class="d-flex flex-column justify-content-end align-items-end">
-                        <span th:text="${'Created date • ' + #dates.format(kindFish.createdDate, 'dd/MM/yyyy')}"></span>
-                        <span th:text="${'Modified date • ' + #dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
+                        <span th:text="${'Ngày khởi tạo • ' + #dates.format(kindFish.createdDate, 'dd/MM/yyyy')}"></span>
+                        <span th:text="${'Ngày chỉnh sửa • ' + #dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
                     </div>
                 </div>
             </div>
