@@ -39,6 +39,11 @@
                     <a class="btn btn-info btn-block w-100" th:href="@{'/admin/update-kindFish/' + ${kindFish.id}}">Update</a>
                 </div>
                 <div class="col p-1">
+                    <a class="btn btn-danger btn-block w-100" th:href="@{'/admin/delete-kindFish/' + ${kindFish.id}}">Delete</a>
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 g-4">
+                <div class="col p-1">
                     <a class="btn btn-success btn-block w-100" th:href="@{/admin/kindFish-management}">Return List of Kind Fishes</a>
                 </div>
             </div>
