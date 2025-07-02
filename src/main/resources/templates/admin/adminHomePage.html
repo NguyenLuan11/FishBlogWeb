@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="admin/common/headerAdmin :: head('Admin Home')"></head>
+<head th:replace="admin/common/headerAdmin :: head('Trang chủ quản trị viên')"></head>
 <body>
     <!-- Header -->
     <div th:replace="~{admin/common/headerAdmin :: headerAdmin-html}"></div>
@@ -9,13 +9,13 @@
     <div class="container mt-4">
         <div class="row g-4">
             <div class="col-md-4">
-                <a th:href="@{/admin/kindFish-management}" class="btn btn-outline-success w-100 p-4 shadow-sm">Manage Kind Fish</a>
+                <a th:href="@{/admin/kindFish-management}" class="btn btn-outline-success w-100 p-4 shadow-sm">Quản lý các loại cá cảnh</a>
             </div>
             <div class="col-md-4">
-                <a href="/admin/fishBlogs" class="btn btn-outline-primary w-100 p-4 shadow-sm">Manage Fish Blogs</a>
+                <a href="/admin/fishBlogs" class="btn btn-outline-primary w-100 p-4 shadow-sm">Quản lý các bài viết cá cảnh</a>
             </div>
             <div class="col-md-4">
-                <a href="/admin/users" class="btn btn-outline-info w-100 p-4 shadow-sm">Manage Users</a>
+                <a href="/admin/users" class="btn btn-outline-info w-100 p-4 shadow-sm">Quản lý người dùng</a>
             </div>
         </div>
     </div>

@@ -35,35 +35,44 @@
 
         <nav id="navmenu" class="navmenu">
             <ul>
-                <li><a th:href="@{/}" class="active">Home</a></li>
-                <li><a th:href="@{/introduce}">Introduce</a></li>
-                <li><a th:href="@{#}">Post</a></li>
-                <li class="dropdown"><a th:href="@{#}"><span>Categories</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <li><a th:href="@{/}" class="active">Trang chủ</a></li>
+                <li><a th:href="@{/introduce}">Giới thiệu</a></li>
+                <li><a th:href="@{#}">Bài viết</a></li>
+                <li class="dropdown"><a th:href="@{#}"><span>Thể loại</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                     <ul>
-                        <li><a th:href="@{/kind-fishes}">Kind Fishes</a></li>
-                        <li class="dropdown"><a th:href="@{#}"><span>Aquatic</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <li><a th:href="@{/kind-fishes}">Loại cá cảnh</a></li>
+                        <li class="dropdown"><a th:href="@{#}"><span>Thủy sinh</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                                <li><a th:href="@{#}">Aquatic plants</a></li>
-                                <li><a th:href="@{#}">Set up tank</a></li>
+                                <li><a th:href="@{#}">Cây thủy sinh</a></li>
+                                <li><a th:href="@{#}">Bố trí bể cá</a></li>
                             </ul>
                         </li>
                     </ul>
                 </li>
-                <li><a th:href="@{/contact}">Contact</a></li>
+                <li><a th:href="@{/contact}">Liên hệ</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
         <div class="header-social-links" th:if="${session.user} == null">
-            <a th:href="@{/login}" class="link-success">LOGIN</a>
-            <a th:href="@{/register}" class="link-danger">REGISTER</a>
+            <a th:href="@{/login}" class="link-success">ĐĂNG NHẬP</a>
+            <a th:href="@{/register}" class="link-danger">ĐĂNG KÝ</a>
         </div>
 
         <div class="header-social-links" th:unless="${session.user} == null">
-            <span class="text-white me-2" th:text="${session.user.userName}"></span>
+            <div class="dropdown me-3">
+                <button th:text="${session.user.userName}" class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" th:href="@{/admin/profile}">Tài khoản</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" th:href="@{/logout}">Đăng xuất</a>
+                    </li>
+                </ul>
+            </div>
+
             <img th:if="${session.user.avatarUrl} == null" th:src="@{/img/avatar_user.png}" alt="avatar user" class="avatar me-3">
             <img th:unless="${session.user.avatarUrl} == null" th:src="@{${session.user.avatarUrl}}" alt="avatar user" class="avatar me-3">
-            <a class="btn btn-outline-light btn-sm" th:href="@{/logout}">Logout</a>
         </div>
 
     </div>

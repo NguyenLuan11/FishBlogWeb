@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="user/common/header :: headUserPage-html(~{::title})">
-    <title>All Kind of Fishes</title>
+    <title>Tất cả các loại cá cảnh</title>
 </head>
 <body class="index-page">
     <header th:replace="~{user/common/header :: headerUserPage-html}"></header>
@@ -13,7 +13,7 @@
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
                 <div class="section-title-container d-flex align-items-center justify-content-between">
-                    <h2>All Kind Fishes</h2>
+                    <h2>Tất cả các loại cá cảnh</h2>
                 </div>
             </div><!-- End Section Title -->
 
@@ -21,7 +21,7 @@
             <div class="container mt-0" data-aos="fade-up" data-aos-delay="100">
 
                 <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listKindFish)}">
-                    <h3>List kind of fish is empty!</h3>
+                    <h3>Danh sách các loại cá cảnh trống!</h3>
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listKindFish)}">
@@ -30,7 +30,7 @@
                             <div class="post-meta" style="padding: 5px; padding-left: 10px;">
                                 <!--                                <span class="date" style="margin-right: 5px">Created date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.createdDate, 'dd/MM/yyyy')}"></span>-->
                                 <!--                                <br>-->
-                                <span class="date">Modified date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
+                                <span class="date">Ngày chỉnh sửa</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
                             </div>
                             <a th:href="@{'/details-kindFish/' + ${kindFish.id}}">
                                 <img th:src="${kindFish.imageUrl}" style="height:220px; object-fit:cover;" class="card-img-top" alt="Fish Image">
@@ -57,7 +57,7 @@
 
                         <!-- Button Previous -->
                         <li th:classappend="${currentPage == 0} ? 'disabled'" class="page-item">
-                            <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage - 1})}">Previous</a>
+                            <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage - 1})}">Trước</a>
                         </li>
 
                         <!-- Numbers of page -->
@@ -68,7 +68,7 @@
 
                         <!-- Button Next -->
                         <li th:classappend="${currentPage + 1 == totalPages} ? 'disabled'" class="page-item">
-                            <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage + 1})}">Next</a>
+                            <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage + 1})}">Tiếp theo</a>
                         </li>
 
                     </ul>

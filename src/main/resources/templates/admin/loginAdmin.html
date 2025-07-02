@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login Admin</title>
+    <title>Đăng nhập tài khoản quản trị viên</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{/css/admin/loginAdminStyle.css}" rel="stylesheet">
@@ -10,12 +10,12 @@
 <body>
     <div class="login">
         <img src="https://banner2.cleanpng.com/20180525/vze/kisspng-gangnam-style-gangnam-district-oppa-5b07b603ef3874.4655634315272320039799.jpg" alt="">
-        <h3>Wellcome Back</h3>
+        <h3>Chào Mừng Trở Lại</h3>
         <h2>ADMIN</h2>
         <form th:action="@{/admin/login}" th:object="${adminLogin}" method="post" class="login-form">
-            <input th:field="*{userName}" type="text" placeholder="Enter your username" required>
-            <input th:field="*{password}" type="password" placeholder="Enter your password" required>
-            <button type="submit">LOGIN</button>
+            <input th:field="*{userName}" type="text" placeholder="Nhập tên tài khoản ..." required>
+            <input th:field="*{password}" type="password" placeholder="Nhập mật khẩu ..." required>
+            <button type="submit">ĐĂNG NHẬP</button>
 
             <p th:if="${message}" th:text="${message}" style="color:red;"></p>
         </form>

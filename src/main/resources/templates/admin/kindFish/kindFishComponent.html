@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="admin/common/headerAdmin :: head(${kindFish.id} != null ? 'Update Kind Fish' : 'Create Kind Fish')"></head>
+<head th:replace="admin/common/headerAdmin :: head(${kindFish.id} != null ? 'Cập nhật ' + ${kindFish.kindFishName} : 'Thêm mới loại cá')"></head>
 
 <body class="bg-light">
 <script>
@@ -24,7 +24,7 @@
 <div class="container mt-5">
     <div class="card shadow-lg">
         <div class="card-header bg-success text-white">
-            <h3 th:text="${kindFish.id} != null ? 'Update Kind Fish' : 'Create New Kind Fish'"
+            <h3 th:text="${kindFish.id} != null ? 'Cập nhật thông tin ' + ${kindFish.kindFishName} : 'Thêm mới loại cá'"
                 class="mb-0 text-uppercase text-center"></h3>
         </div>
 
@@ -40,8 +40,8 @@
 
                 <!-- KindFish Name -->
                 <div class="mb-3">
-                    <label for="kindFishName" class="form-label">Fish Name</label>
-                    <input type="text" th:field="*{kindFishName}" class="form-control" id="kindFishName" placeholder="Enter name of kind fish" required>
+                    <label for="kindFishName" class="form-label">Tên loại cá cảnh</label>
+                    <input type="text" th:field="*{kindFishName}" class="form-control" id="kindFishName" placeholder="Nhập tên của loại cá cảnh ..." required>
                 </div>
 
                 <!-- Upload Image -->
@@ -50,7 +50,7 @@
                 <input type="hidden" th:field="*{imageUrl}"/>
                 <!-- Show current image if exists -->
                 <div th:if="*{imageUrl} != null" class="mb-3">
-                    <label class="form-label">Current Image</label>
+                    <label class="form-label">Ảnh hiện tại</label>
                     <div>
                         <img th:src="@{${kindFish.imageUrl}}" alt="Current Image" class="img-thumbnail" style="max-height: 200px;">
                     </div>
@@ -58,10 +58,10 @@
 
                 <!-- Upload New Image -->
                 <div class="mb-3">
-                    <label for="image" class="form-label">Upload New Image</label>
+                    <label for="image" class="form-label">Tải lên ảnh mới</label>
                     <input class="form-control" type="file" id="image" name="image" accept="image/*"
                            th:required="*{id} == null" onchange="previewImage(event)">
-                    <small th:if="*{id} != null" class="text-muted">Leave blank if you don't want to change the image.</small>
+                    <small th:if="*{id} != null" class="text-muted">Để trống nếu như không muốn thay đổi ảnh!</small>
 
                     <!-- Image Preview -->
                     <div class="mt-3">
@@ -71,15 +71,16 @@
 
                 <!-- Description -->
                 <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea th:field="*{description}" class="form-control" id="description" rows="4" placeholder="Enter description" required></textarea>
+                    <label for="description" class="form-label">Mô tả</label>
+                    <textarea th:field="*{description}" class="form-control" id="description" rows="4" placeholder="Nhập mô tả ..." required></textarea>
                 </div>
 
                 <!-- Submit Button -->
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-success" th:text="*{id} != null ? 'Update Kind Fish' : 'Create Kind Fish'"></button>
-                    <a th:if="*{id} != null" th:href="@{'/admin/details-kindFish/' + *{id}}" class="btn btn-info mt-2" >Return Details of Kind Fish</a>
-                    <a th:unless="*{id} != null" th:href="@{/admin/kindFish-management}" class="btn btn-info mt-2" >Return List of Kind Fishes</a>
+                    <button type="submit" class="btn btn-success" th:text="*{id} != null ? 'Cập nhật' : 'Tạo mới'"></button>
+                    <a th:if="*{id} != null" th:href="@{'/admin/details-kindFish/' + *{id}}"
+                       th:text="'Trở về chi tiết của ' + *{kindFishName}" class="btn btn-info mt-2" ></a>
+                    <a th:unless="*{id} != null" th:href="@{/admin/kindFish-management}" class="btn btn-info mt-2" >Trở về danh sách các loại cá</a>
                 </div>
 
             </form>

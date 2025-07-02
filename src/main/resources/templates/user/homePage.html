@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="user/common/header :: headUserPage-html(~{::title})">
-    <title>Fish Blog Home</title>
+    <title>Trang chủ</title>
 </head>
 <body class="index-page">
     <header th:replace="~{user/common/header :: headerUserPage-html}"></header>
@@ -14,8 +14,8 @@
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
                 <div class="section-title-container d-flex align-items-center justify-content-between">
-                    <h2>Kind Fishes</h2>
-                    <p><a th:href="@{/kind-fishes}">See All Kind Fishes</a></p>
+                    <h2>Loại cá cảnh</h2>
+                    <p><a th:href="@{/kind-fishes}">Xem tất cả loại cá cảnh</a></p>
                 </div>
             </div><!-- End Section Title -->
 
@@ -23,7 +23,7 @@
             <div class="container mt-0" data-aos="fade-up" data-aos-delay="100">
 
                 <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listKindFish)}">
-                    <h3>List kind of fish is empty!</h3>
+                    <h3>Danh sách các loại cá cảnh trống!</h3>
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listKindFish)}">
@@ -32,7 +32,7 @@
                             <div class="post-meta" style="padding: 5px; padding-left: 10px;">
 <!--                                <span class="date" style="margin-right: 5px">Created date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.createdDate, 'dd/MM/yyyy')}"></span>-->
 <!--                                <br>-->
-                                <span class="date">Modified date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
+                                <span class="date">Ngày chỉnh sửa</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
                             </div>
                             <a th:href="@{'/details-kindFish/' + ${kindFish.id}}">
                                 <img th:src="${kindFish.imageUrl}" style="height:220px; object-fit:cover;" class="card-img-top" alt="Fish Image">
@@ -60,15 +60,15 @@
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
                 <div class="section-title-container d-flex align-items-center justify-content-between">
-                    <h2>Aquatic plants</h2>
-                    <p><a href="">See All Aquatic plants</a></p>
+                    <h2>Cây thủy sinh</h2>
+                    <p><a href="">Xem tất cả cây thủy sinh</a></p>
                 </div>
             </div><!-- End Section Title -->
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
 
                 <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listAquaticPlants)}">
-                    <h3>List Aquatic plants is empty!</h3>
+                    <h3>Danh sách các cây thủy sinh trống!</h3>
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listAquaticPlants)}">
@@ -84,15 +84,15 @@
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
                 <div class="section-title-container d-flex align-items-center justify-content-between">
-                    <h2>Set up tank</h2>
-                    <p><a href="">See All Set up tank</a></p>
+                    <h2>Bố trí bể cá</h2>
+                    <p><a href="">Xem tất cả bố trí bể cá</a></p>
                 </div>
             </div><!-- End Section Title -->
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
 
                 <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listSetUpTank)}">
-                    <h3>List Set up tank is empty!</h3>
+                    <h3>Danh sách các bố trí bể cá trống!</h3>
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listSetUpTank)}">

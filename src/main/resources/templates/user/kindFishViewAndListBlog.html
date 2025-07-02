@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="user/common/header :: headUserPage-html(~{::title})">
-    <title>Details about kind of fish</title>
+    <title th:text="'Chi tiết về ' + ${kindFish.kindFishName}"></title>
 </head>
 <body class="index-page">
     <header th:replace="~{user/common/header :: headerUserPage-html}"></header>
@@ -16,7 +16,7 @@
                 <div class="section-title-container d-flex align-items-center justify-content-between">
                     <h2 th:text="${kindFish.kindFishName}"></h2>
                     <p>
-                        <span class="date">Modified date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
+                        <span class="date">Ngày chỉnh sửa</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
                     </p>
                 </div>
             </div><!-- End Section Title -->
@@ -41,21 +41,21 @@
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
                 <div class="section-title-container d-flex align-items-center justify-content-between">
-                    <h2>Blogs</h2>
+                    <h2>Các bài viết liên quan</h2>
                 </div>
             </div><!-- End Section Title -->
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
 
                 <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listFishBlog)}">
-                    <h3 th:text="'Blogs of ' + ${kindFish.kindFishName} + ' is empty!'"></h3>
+                    <h3 th:text="'Các bài viết liên quan ' + ${kindFish.kindFishName} + ' trống!'"></h3>
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listFishBlog)}">
                     <div class="col" th:each="fishBlog : ${listFishBlog}">
                         <div class="card h-50 shadow-sm">
                             <div class="post-meta" style="padding: 5px; padding-left: 10px;">
-                                <span class="date">Modified date</span>
+                                <span class="date">Ngày chỉnh sửa</span>
                                 <span class="mx-1">•</span>
                                 <span th:text="${#dates.format(fishBlog.modifiedDate, 'dd/MM/yyyy')}"></span>
                             </div>
@@ -81,7 +81,7 @@
                         <!-- Button Previous -->
                         <li th:classappend="${currentPage == 0} ? 'disabled'" class="page-item">
                             <a class="page-link"
-                               th:href="@{'/details-kindFish/' + ${kindFishId} + '(page=' + (${currentPage} - 1) + ')'}">Previous</a>
+                               th:href="@{'/details-kindFish/' + ${kindFishId} + '(page=' + (${currentPage} - 1) + ')'}">Trước</a>
                         </li>
 
                         <!-- Numbers of page -->
@@ -96,7 +96,7 @@
                         <!-- Button Next -->
                         <li th:classappend="${currentPage + 1 == totalPages} ? 'disabled'" class="page-item">
                             <a class="page-link"
-                               th:href="@{'/details-kindFish/' + ${kindFishId} + '(page=' + (${currentPage} + 1) + ')'}">Next</a>
+                               th:href="@{'/details-kindFish/' + ${kindFishId} + '(page=' + (${currentPage} + 1) + ')'}">Tiếp theo</a>
                         </li>
 
                     </ul>
