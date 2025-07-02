@@ -18,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Controller
 @RequestMapping("/admin")
@@ -42,8 +44,10 @@ public class KindFishController {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
             Page<KindFishDto> kindFishDtoPage = kindFishService.getKindFishPage(pageable);
+            List<KindFishDto> allKindFish = kindFishService.getAllKindFish();
 
-            model.addAttribute("listKindFish", kindFishDtoPage.getContent());
+            model.addAttribute("listKindFishPage", kindFishDtoPage.getContent());
+            model.addAttribute("listKindFish", allKindFish);
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", kindFishDtoPage.getTotalPages());
         } catch (Exception e) {

@@ -12,72 +12,103 @@
 
             <!-- Section Title -->
             <div class="container section-title" data-aos="fade-up">
+
                 <div class="section-title-container d-flex align-items-center justify-content-between">
                     <h2>Tất cả các loại cá cảnh</h2>
+
+                    <div class="search-container">
+                        <input type="text" id="searchInput" class="form-control search-input" placeholder="Tìm kiếm ...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
                 </div>
             </div><!-- End Section Title -->
 
             <!-- LIST KIND OF FISH -->
             <div class="container mt-0" data-aos="fade-up" data-aos-delay="100">
 
-                <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listKindFish)}">
-                    <h3>Danh sách các loại cá cảnh trống!</h3>
-                </div>
+                <!-- DANH SÁCH PHÂN TRANG BACKEND -->
+                <div id="pagedList">
 
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listKindFish)}">
-                    <div class="col" th:each="kindFish : ${listKindFish}">
-                        <div class="card h-100 shadow-sm">
-                            <div class="post-meta" style="padding: 5px; padding-left: 10px;">
-                                <!--                                <span class="date" style="margin-right: 5px">Created date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.createdDate, 'dd/MM/yyyy')}"></span>-->
-                                <!--                                <br>-->
-                                <span class="date">Ngày chỉnh sửa</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
-                            </div>
-                            <a th:href="@{'/details-kindFish/' + ${kindFish.id}}">
-                                <img th:src="${kindFish.imageUrl}" style="height:220px; object-fit:cover;" class="card-img-top" alt="Fish Image">
-                            </a>
-                            <div class="card-body">
-                                <h3 class="card-title">
-                                    <a th:href="@{'/details-kindFish/' + ${kindFish.id}}" th:text="${kindFish.kindFishName}"></a>
-                                </h3>
-                                <div class="card-text" style="text-align: justify;"
-                                     th:utext="${#strings.length(kindFish.description) > 300
+                    <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listKindFishPage)}">
+                        <h3>Danh sách các loại cá cảnh trống!</h3>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" th:unless="${#lists.isEmpty(listKindFishPage)}">
+                        <div class="col" th:each="kindFish : ${listKindFishPage}">
+                            <div class="card h-100 shadow-sm">
+                                <div class="post-meta" style="padding: 5px; padding-left: 10px;">
+                                    <!--                                <span class="date" style="margin-right: 5px">Created date</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.createdDate, 'dd/MM/yyyy')}"></span>-->
+                                    <!--                                <br>-->
+                                    <span class="date">Ngày chỉnh sửa</span> <span class="mx-1">•</span> <span th:text="${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></span>
+                                </div>
+                                <a th:href="@{'/details-kindFish/' + ${kindFish.id}}">
+                                    <img th:src="${kindFish.imageUrl}" style="height:220px; object-fit:cover;" class="card-img-top" alt="Fish Image">
+                                </a>
+                                <div class="card-body">
+                                    <h3 class="card-title">
+                                        <a th:href="@{'/details-kindFish/' + ${kindFish.id}}" th:text="${kindFish.kindFishName}"></a>
+                                    </h3>
+                                    <div class="card-text" style="text-align: justify;"
+                                         th:utext="${#strings.length(kindFish.description) > 300
                                                     ? #strings.substring(kindFish.description, 0, 300) + ' ...'
                                                     : kindFish.description}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-center mt-4" th:if="${totalPages > 1}">
+                        <nav>
+                            <ul class="pagination">
+
+                                <!-- Button Previous -->
+                                <li th:classappend="${currentPage == 0} ? 'disabled'" class="page-item">
+                                    <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage - 1})}">Trước</a>
+                                </li>
+
+                                <!-- Numbers of page -->
+                                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                                    th:classappend="${i == currentPage} ? 'active'">
+                                    <a class="page-link" th:href="@{'/kind-fishes'(page=${i})}" th:text="${i + 1}"></a>
+                                </li>
+
+                                <!-- Button Next -->
+                                <li th:classappend="${currentPage + 1 == totalPages} ? 'disabled'" class="page-item">
+                                    <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage + 1})}">Tiếp theo</a>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div><!-- /Pagination -->
+
                 </div>
+
+
+                <!-- DANH SÁCH TÌM KIẾM KẾT QUẢ (ẩn mặc định) -->
+                <div id="searchList" class="mt-3" style="display: none;">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="searchResults"></div>
+                    <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 g-4" id="searchNotFound"></div>
+
+                    <!-- Phân trang tìm kiếm -->
+                    <div id="searchPaginationContainer" class="d-flex justify-content-center mt-4" style="display: none;">
+                        <ul class="pagination" id="searchPagination"></ul>
+                    </div>
+                </div>
+
             </div>
-
-            <!-- Pagination -->
-            <div class="d-flex justify-content-center mt-4" th:if="${totalPages > 1}">
-                <nav>
-                    <ul class="pagination">
-
-                        <!-- Button Previous -->
-                        <li th:classappend="${currentPage == 0} ? 'disabled'" class="page-item">
-                            <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage - 1})}">Trước</a>
-                        </li>
-
-                        <!-- Numbers of page -->
-                        <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-                            th:classappend="${i == currentPage} ? 'active'">
-                            <a class="page-link" th:href="@{'/kind-fishes'(page=${i})}" th:text="${i + 1}"></a>
-                        </li>
-
-                        <!-- Button Next -->
-                        <li th:classappend="${currentPage + 1 == totalPages} ? 'disabled'" class="page-item">
-                            <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage + 1})}">Tiếp theo</a>
-                        </li>
-
-                    </ul>
-                </nav>
-            </div><!-- /Pagination -->
 
         </section><!-- /Kind Fishes Category Section -->
     </main>
 
     <footer th:replace="~{user/common/footer :: footerUserPage-html}"></footer>
+
+    <!-- JS LỌC & PHÂN TRANG CLIENT -->
+    <script th:inline="javascript">
+        window.allKindFish = /*[[${listKindFish}]]*/ [];
+    </script>
+    <script th:src="@{/js/user/listKindFish_search.js}"></script>
+
 </body>
 </html>
