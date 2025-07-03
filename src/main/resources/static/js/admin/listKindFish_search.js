@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
                    </a>
                    <div class="card-body">
                        <h5 class="card-title">${item.kindFishName}</h5>
-                       <p class="card-text" style="text-align:justify">${truncate(item.description, 200)}</p>
+                       <p class="card-text" style="text-align:justify">${truncate(item.description, 300)}</p>
                        <div class="d-flex justify-content-around">
                            <a class="btn btn-outline-info" href="/admin/update-kindFish/${item.id}">Cập nhật</a>
                            <a class="btn btn-outline-danger" href="/admin/delete-kindFish/${item.id}">Xóa</a>
