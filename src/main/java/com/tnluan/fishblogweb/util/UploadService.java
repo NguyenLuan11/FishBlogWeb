@@ -40,19 +40,18 @@ public class UploadService {
         }
     }
 
-    public boolean deleteImage(String imageUrl) {
+    public void deleteImage(String imageUrl) {
         try {
-            if (imageUrl == null || imageUrl.isEmpty()) return false;
+            if (imageUrl == null || imageUrl.isEmpty()) return;
 
             // Remove "/upload/"
             String relativePath = imageUrl.replaceFirst("/upload/", "");
             // Get relative path to file
             Path filePath = Paths.get(Constant.baseUploadDir).resolve(relativePath);
 
-            return Files.deleteIfExists(filePath);
+            Files.deleteIfExists(filePath);
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
     }
 }
