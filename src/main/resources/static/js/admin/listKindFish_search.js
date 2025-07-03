@@ -84,7 +84,10 @@ document.addEventListener('DOMContentLoaded', function () {
                        <p class="card-text" style="text-align:justify">${truncate(item.description, 300)}</p>
                        <div class="d-flex justify-content-around">
                            <a class="btn btn-outline-info" href="/admin/update-kindFish/${item.id}">Cập nhật</a>
-                           <a class="btn btn-outline-danger" href="/admin/delete-kindFish/${item.id}">Xóa</a>
+                           <form action="/admin/delete-kindFish/${item.id}" method="post" style="display: inline;">
+                              <input type="hidden" name="_method" value="delete"/>
+                              <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn xoá?')">Xóa</button>
+                           </form>
                        </div>
                     </div>
                 </div>

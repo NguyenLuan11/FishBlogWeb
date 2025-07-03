@@ -7,6 +7,7 @@ import com.tnluan.fishblogweb.exception.ResourceUnprocessableEntityException;
 import com.tnluan.fishblogweb.mapper.KindFishMapper;
 import com.tnluan.fishblogweb.repository.KindFishRepository;
 import com.tnluan.fishblogweb.service.KindFishService;
+import com.tnluan.fishblogweb.util.UploadService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,8 @@ import java.util.List;
 public class KindFishServiceImpl implements KindFishService {
 
     private KindFishRepository kindFishRepository;
+
+    private UploadService uploadService;
 
     private KindFish findKindFishById(Long id) {
         return kindFishRepository.findById(id).orElseThrow(
@@ -80,9 +83,10 @@ public class KindFishServiceImpl implements KindFishService {
 
     @Override
     public void deleteKindFishById(Long id) {
-        if (!kindFishRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Kind of fish isn't exists with given id: " + id);
-        }
+        KindFishDto kindFish = KindFishMapper.mapToKindFishDto(findKindFishById(id));
+        // Remove image in dir
+        uploadService.deleteImage(kindFish.getImageUrl());
+        // Delete KindFish in DB
         kindFishRepository.deleteById(id);
     }
 }

@@ -39,4 +39,20 @@ public class UploadService {
             throw new RuntimeException("Could not store image. Error: " + e.getMessage());
         }
     }
+
+    public boolean deleteImage(String imageUrl) {
+        try {
+            if (imageUrl == null || imageUrl.isEmpty()) return false;
+
+            // Remove "/upload/"
+            String relativePath = imageUrl.replaceFirst("/upload/", "");
+            // Get relative path to file
+            Path filePath = Paths.get(Constant.baseUploadDir).resolve(relativePath);
+
+            return Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

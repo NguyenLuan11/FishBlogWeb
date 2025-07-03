@@ -121,5 +121,9 @@ public class KindFishController {
     }
 
     // DELETE KIND FISH
-
+    @DeleteMapping("/delete-kindFish/{id}")
+    public String deleteKindFish(@PathVariable("id") Long id) {
+        kindFishService.deleteKindFishById(id);
+        return "redirect:/admin/kindFish-management";
+    }
 }
