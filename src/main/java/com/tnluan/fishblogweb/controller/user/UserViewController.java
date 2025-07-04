@@ -32,6 +32,7 @@ public class UserViewController {
 
     private FishBlogService fishBlogService;
 
+    // HOME PAGE
     @GetMapping("/")
     public String homePage(Model model) {
         try {
@@ -52,22 +53,26 @@ public class UserViewController {
         return "user/homePage";
     }
 
+    // CONTACT PAGE
     @GetMapping("/contact")
     public String contractPage() {
         return "user/contactPage";
     }
 
+    // INTRODUCE PAGE
     @GetMapping("/introduce")
     public String introducePage() {
         return "user/introducePage";
     }
 
+    // LOGIN PAGE
     @GetMapping("/login")
     public String loginPage(Model model) {
         model.addAttribute("userLogin", new UserDto());
         return "user/loginUser";
     }
 
+    // LOGIN ACTIONS
     @PostMapping("/login")
     public String loginUser(@ModelAttribute("userLogin") UserDto userLogin,
                             HttpSession session,
@@ -83,18 +88,21 @@ public class UserViewController {
         }
     }
 
+    // LOGOUT ACTIONS
     @GetMapping("/logout")
     public String logoutUser(HttpSession session) {
         session.invalidate();
         return "redirect:/";
     }
 
+    // REGISTRATION PAGE
     @GetMapping("/register")
     public String registerPage(Model model) {
         model.addAttribute("userRegister", new UserDto());
         return "user/registerUser";
     }
 
+    // REGISTER ACTIONS
     @PostMapping("/register")
     public String registrationUser(@ModelAttribute("userRegister") UserDto userRegister,
                                     HttpSession session,
@@ -110,6 +118,16 @@ public class UserViewController {
         }
     }
 
+    // USER'S PROFILE PAGE
+
+
+    // UPDATE USER'S INFORMATION PAGE
+
+
+    // UPDATE USER'S INFORMATION ACTIONS
+
+
+    // DETAILS KIND FISH AND ALL BLOGS OF KIND FISH PAGE
     @GetMapping("/details-kindFish/{id}")
     public String detailsKindFishAndListBlog(@PathVariable("id") Long id,
                                              @RequestParam(defaultValue = "0") int page,
@@ -133,6 +151,7 @@ public class UserViewController {
         return "user/kindFishViewAndListBlog";
     }
 
+    // ALL KIND FISHES PAGE
     @GetMapping("/kind-fishes")
     public String listKindFishView(@RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "8") int size,
