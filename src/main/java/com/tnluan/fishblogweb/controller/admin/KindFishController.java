@@ -31,16 +31,11 @@ public class KindFishController {
 
     private UploadService uploadService;
 
-    // KIND FISH MANAGEMENT
+    // KIND FISH MANAGEMENT PAGE
     @GetMapping("/kindFish-management")
     public String listKindFishView(@RequestParam(defaultValue = "0") int page,
                                    @RequestParam(defaultValue = "12") int size,
-                                   Model model, HttpSession session) {
-        UserDto admin = (UserDto) session.getAttribute("admin");
-        if (admin == null || !"ADMIN".equalsIgnoreCase(admin.getRole())) {
-            return "redirect:/admin/login";
-        }
-
+                                   Model model) {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
             Page<KindFishDto> kindFishDtoPage = kindFishService.getKindFishPage(pageable);
@@ -56,15 +51,9 @@ public class KindFishController {
         return "admin/kindFish/listKindFishManager";
     }
 
-    // DETAILS KIND FISH
+    // DETAILS KIND FISH PAGE
     @GetMapping("/details-kindFish/{id}")
-    public String detailsKindFish(@PathVariable("id") Long id, Model model,
-                                  HttpSession session) {
-        UserDto admin = (UserDto) session.getAttribute("admin");
-        if (admin == null || !"ADMIN".equalsIgnoreCase(admin.getRole())) {
-            return "redirect:/admin/login";
-        }
-
+    public String detailsKindFish(@PathVariable("id") Long id, Model model) {
         try {
             KindFishDto kindFishDto = kindFishService.getKindFishById(id);
 
@@ -76,17 +65,10 @@ public class KindFishController {
     }
 
 
-    // CREATE - UPDATE KIND FISH
+    // CREATE - UPDATE KIND FISH PAGE
     @GetMapping({"/create-kindFish", "/update-kindFish/{id}"})
     public String showKindFishForm(@PathVariable(value = "id", required = false) Long id,
-                                   Model model,
-                                   HttpSession session) {
-
-        UserDto admin = (UserDto) session.getAttribute("admin");
-        if (admin == null || !"ADMIN".equalsIgnoreCase(admin.getRole())) {
-            return "redirect:/admin/login";
-        }
-
+                                   Model model) {
         KindFishDto kindFishDto;
         if (id != null) {
             kindFishDto = kindFishService.getKindFishById(id);
@@ -97,6 +79,7 @@ public class KindFishController {
         return "admin/kindFish/kindFishComponent";
     }
 
+    // SAVE KIND FISH ACTIONS
     @PostMapping("/save-kindFish")
     public String createNewKindFish(@ModelAttribute KindFishDto kindFishDto,
                                     @RequestParam("image") MultipartFile imageFile) {
