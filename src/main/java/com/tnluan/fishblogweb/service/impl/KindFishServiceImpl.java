@@ -84,8 +84,12 @@ public class KindFishServiceImpl implements KindFishService {
     @Override
     public void deleteKindFishById(Long id) {
         KindFishDto kindFish = KindFishMapper.mapToKindFishDto(findKindFishById(id));
+
         // Remove image in dir
-        uploadService.deleteImage(kindFish.getImageUrl());
+        if (kindFish.getImageUrl() != null || !kindFish.getImageUrl().isEmpty()) {
+            uploadService.deleteImage(kindFish.getImageUrl());
+        }
+
         // Delete KindFish in DB
         kindFishRepository.deleteById(id);
     }

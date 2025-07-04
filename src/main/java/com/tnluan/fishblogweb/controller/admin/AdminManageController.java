@@ -21,9 +21,7 @@ public class AdminManageController {
 
     // HOME PAGE
     @GetMapping("/home")
-    public String adminHome(Model model, HttpSession session) {
-        UserDto admin = (UserDto) session.getAttribute("admin");
-        model.addAttribute("admin", admin);
+    public String adminHome() {
         return "admin/adminHomePage";
     }
 
@@ -61,4 +59,16 @@ public class AdminManageController {
         session.invalidate();
         return "redirect:/admin/login";
     }
+
+    // PROFILE ADMIN PAGE
+    @GetMapping("/profile")
+    public String profileAdminPage(Model model) {
+        UserDto admin = new UserDto();
+        model.addAttribute("admin", admin);
+        return "admin/profileAdmin";
+    }
+
+    // UPDATE INFORMATION OF ADMIN ACTIONS
+
+
 }

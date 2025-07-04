@@ -9,6 +9,7 @@ import com.tnluan.fishblogweb.mapper.UserMapper;
 import com.tnluan.fishblogweb.repository.UserRepository;
 import com.tnluan.fishblogweb.service.UserService;
 import com.tnluan.fishblogweb.util.BcryptPass;
+import com.tnluan.fishblogweb.util.UploadService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+
+    private UploadService uploadService;
 
     private User findUserById(Long id) {
         return userRepository.findById(id).orElseThrow(
@@ -52,6 +55,7 @@ public class UserServiceImpl implements UserService {
 
         // Check exist userName or email
         checkExistInfoUser(userDto.getUserName(), userDto.getEmail());
+
         // Encrypt password
         userDto.setPassword(BcryptPass.encrypt(userDto.getPassword()));
 
@@ -98,9 +102,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new ResourceNotFoundException("User isn't exists with given id: " + id);
+        UserDto user = UserMapper.mapToUserDto(findUserById(id));
+
+        if (user.getAvatarUrl() != null || !user.getAvatarUrl().isEmpty()) {
+            uploadService.deleteImage(user.getAvatarUrl());
         }
+
         userRepository.deleteById(id);
     }
 

@@ -119,10 +119,12 @@ public class UserViewController {
     }
 
     // USER'S PROFILE PAGE
-
-
-    // UPDATE USER'S INFORMATION PAGE
-
+    @GetMapping("/profile")
+    public String profileUserPage(Model model) {
+        UserDto user = new UserDto();
+        model.addAttribute("user", user);
+        return "user/profileUser";
+    }
 
     // UPDATE USER'S INFORMATION ACTIONS
 
