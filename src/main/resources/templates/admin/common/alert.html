@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="alert">
     <div class="container mt-3" th:if="${message}">
-        <div class="alert alert-[[${typeMessage} ?: 'success']] alert-dismissible fade show text-center" role="alert">
+        <div class="alert alert-dismissible fade show text-center"
+             th:classappend="'alert-' + (${typeMessage} != null ? ${typeMessage} : 'success')"
+             role="alert">
             <strong th:text="${message}">Thông báo!</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
         </div>
