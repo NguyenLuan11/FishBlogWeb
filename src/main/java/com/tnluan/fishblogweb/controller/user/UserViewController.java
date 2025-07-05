@@ -120,8 +120,8 @@ public class UserViewController {
 
     // USER'S PROFILE PAGE
     @GetMapping("/profile")
-    public String profileUserPage(Model model) {
-        UserDto user = new UserDto();
+    public String profileUserPage(Model model, HttpSession session) {
+        UserDto user = (UserDto) session.getAttribute("user");
         model.addAttribute("user", user);
         return "user/profileUser";
     }
