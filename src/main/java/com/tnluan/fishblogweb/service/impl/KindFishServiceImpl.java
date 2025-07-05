@@ -86,7 +86,7 @@ public class KindFishServiceImpl implements KindFishService {
         KindFishDto kindFish = KindFishMapper.mapToKindFishDto(findKindFishById(id));
 
         // Remove image in dir
-        if (kindFish.getImageUrl() != null || !kindFish.getImageUrl().isEmpty()) {
+        if (kindFish.getImageUrl() != null && !kindFish.getImageUrl().isEmpty()) {
             uploadService.deleteImage(kindFish.getImageUrl());
         }
 
