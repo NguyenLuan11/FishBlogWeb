@@ -3,12 +3,15 @@ package com.tnluan.fishblogweb.controller.admin;
 import com.tnluan.fishblogweb.dto.UserDto;
 import com.tnluan.fishblogweb.exception.ResourceNotFoundException;
 import com.tnluan.fishblogweb.service.UserService;
+import com.tnluan.fishblogweb.util.Constant;
 import com.tnluan.fishblogweb.util.UploadService;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @AllArgsConstructor
 @Controller
@@ -62,13 +65,39 @@ public class AdminManageController {
 
     // PROFILE ADMIN PAGE
     @GetMapping("/profile")
-    public String profileAdminPage(Model model) {
-        UserDto admin = new UserDto();
+    public String profileAdminPage(Model model, HttpSession session) {
+        UserDto admin = (UserDto) session.getAttribute("admin");
         model.addAttribute("admin", admin);
         return "admin/profileAdmin";
     }
 
     // UPDATE INFORMATION OF ADMIN ACTIONS
+    @PutMapping("/profile/update")
+    public String updateProfileAdmin(@ModelAttribute UserDto admin,
+                                     @RequestParam("imageAvt") MultipartFile imageAvtFile,
+                                     HttpSession session,
+                                     RedirectAttributes redirectAttributes) {
+        // Update Image Avatar
+        if (imageAvtFile != null && !imageAvtFile.isEmpty()) {
+            String imageAvtUrl = uploadService.UploadImage(imageAvtFile, Constant.uploadAvtDir);
+            admin.setAvatarUrl(imageAvtUrl);
+        } else {
+            UserDto existingAdmin = userService.getUserById(admin.getId());
+            if (existingAdmin != null) {
+                admin.setAvatarUrl(existingAdmin.getAvatarUrl());
+            }
+        }
 
+        // Update Admin
+        UserDto updatedAdmin = userService.updateUserById(admin.getId(), admin);
+        if (updatedAdmin != null) {
+            redirectAttributes.addFlashAttribute("message", "Cập nhật thông tin quản trị viên thành công!");
+            redirectAttributes.addFlashAttribute("typeMessage", "warning");
+        }
+
+        // Update session
+        session.setAttribute("admin", updatedAdmin);
+        return "redirect:/admin/profile";
+    }
 
 }

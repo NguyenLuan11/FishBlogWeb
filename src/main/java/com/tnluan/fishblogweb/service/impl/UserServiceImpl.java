@@ -73,9 +73,6 @@ public class UserServiceImpl implements UserService {
             throw new ResourceUnprocessableEntityException("Email is required! Please provide a valid email!");
         }
 
-        // Check exist userName or email
-        checkExistInfoUser(userDto.getUserName(), userDto.getEmail());
-
         User user = findUserById(id);
 
         user.setUserName(userDto.getUserName());
@@ -104,7 +101,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Long id) {
         UserDto user = UserMapper.mapToUserDto(findUserById(id));
 
-        if (user.getAvatarUrl() != null || !user.getAvatarUrl().isEmpty()) {
+        if (user.getAvatarUrl() != null && !user.getAvatarUrl().isEmpty()) {
             uploadService.deleteImage(user.getAvatarUrl());
         }
 

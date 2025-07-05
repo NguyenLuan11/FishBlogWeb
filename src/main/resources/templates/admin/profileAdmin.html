@@ -1,10 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/common/headerAdmin :: head('Tài khoản quản trị viên')"></head>
 <head>
     <meta charset="UTF-8">
     <title>Tài khoản quản trị viên</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/admin/profileAdminStyle.css}" rel="stylesheet">
 </head>
-<body>
+<body class="green-bg">
+    <!-- Header -->
+    <div th:replace="~{admin/common/headerAdmin :: headerAdmin-html}"></div>
+
+    <main class="main p-3">
+
+        <!-- ✅ Message -->
+        <div th:replace="~{admin/common/alert :: alert}"></div>
+
+        <!-- Main Content -->
+        <section class="section about-section" id="about">
+            <div class="container">
+                <form th:action="@{/admin/profile/update}" th:object="${admin}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="_method" value="put">
+                    <div class="row align-items-center flex-row-reverse">
+                        <div class="col-lg-6">
+                            <div class="about-text go-to">
+                                <h3 class="dark-color">HỒ SƠ QUẢN TRỊ VIÊN</h3>
+                                <h6 class="theme-color lead">Quản trị viên FishBlog Website</h6>
+                                <p></p>
+                                <div class="row about-list">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3 d-none">
+                                            <input type="hidden" class="form-control" id="id" th:field="*{id}" th:name="id">
+                                            <label for="id">ID</label>
+                                        </div>
+
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="registeredDate" th:value="${#dates.format(session.admin.registeredDate, 'dd-MM-yyyy')}" readonly>
+                                            <label for="registeredDate">Ngày tạo tài khoản</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="modifiedDate" th:value="${#dates.format(session.admin.modifiedDate, 'dd-MM-yyyy')}" readonly>
+                                            <label for="modifiedDate">Ngày chỉnh sửa</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="userName" th:field="*{userName}" th:name="userName">
+                                            <label for="userName">Tên tài khoản</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="fullName" th:field="*{fullName}" th:name="fullName">
+                                            <label for="fullName">Tên đầy đủ</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" id="email" th:field="*{email}" th:name="email">
+                                            <label for="email">Email</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="phone" th:field="*{phone}" th:name="phone">
+                                            <label for="phone">Số điện thoại</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="address" th:field="*{address}" th:name="address">
+                                            <label for="address">Địa chỉ</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-warning w-100">Cập nhật thông tin</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="about-avatar">
+                                <label for="imageAvt" style="cursor: pointer;">
+                                    <img th:if="${session.admin.avatarUrl} == null" th:src="@{/img/avatar_admin.webp}" alt="avatar admin"
+                                         class="rounded-circle img-thumbnail" style="width: 300px; height: 300px; object-fit: cover;">
+                                    <img th:unless="${session.admin.avatarUrl} == null" th:src="@{${session.admin.avatarUrl}}" alt="avatar admin"
+                                         class="rounded-circle img-thumbnail" style="width: 300px; height: 300px; object-fit: cover;">
+                                </label>
+
+                                <!-- input file hidden -->
+                                <input type="file" id="imageAvt" name="imageAvt" style="display: none;" accept="image/*"
+                                       onchange="previewNewImg()">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{admin/common/footerAdmin :: footerAdmin-html}"></div>
+
+    <div th:with="avatarUrl=${session.admin.avatarUrl != null} ? @{${session.admin.avatarUrl}} : @{/img/avatar_admin.webp}">
+        <script th:inline="javascript">
+            const originalAvatarUrl = /*[[${avatarUrl}]]*/ '';
+        </script>
+    </div>
+    <script>
+        function previewNewImg() {
+            const fileInput = document.getElementById("imageAvt");
+
+            // Optional: Preview new Image
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imgs = document.querySelectorAll('.about-avatar img');
+                    imgs.forEach(img => img.src = e.target.result);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                const imgs = document.querySelectorAll('.about-avatar img');
+                imgs.forEach(img => img.src = originalAvatarUrl);
+            }
+        }
+    </script>
 
 </body>
 </html>
