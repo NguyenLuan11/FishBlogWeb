@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link th:href="@{/css/user/login_signup_style.css}" rel="stylesheet">
+</head>
+<body>
+
+    <a th:href="@{/}" class="logo" target="_blank">
+        <img th:src="@{/img/logo.png}" style="height: 100px; width: 100px;" alt="Logo FishBlogs Website">
+    </a>
+
+    <div class="section">
+        <div class="container">
+            <div class="row full-height justify-content-center">
+                <div class="col-12 text-center align-self-center py-5">
+                    <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                        <h6 class="mb-0 pb-3">
+                            <span class="text-light">ĐĂNG NHẬP </span><span class="text-light">ĐĂNG KÝ</span>
+                        </h6>
+                        <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
+                        <label for="reg-log"></label>
+                        <div class="card-3d-wrap mx-auto">
+                            <div class="card-3d-wrapper">
+                                <div class="card-front">
+                                    <div class="center-wrap">
+                                        <div class="section text-center">
+                                            <form th:action="@{/login}" method="post">
+                                                <h4 class="mb-4 pb-3">ĐĂNG NHẬP</h4>
+                                                <div class="form-group">
+                                                    <input type="text" th:name="userName" class="form-style" placeholder="Tên tài khoản" id="userName" autocomplete="off">
+                                                    <i class="input-icon uil uil-user"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="password" th:name="password" class="form-style" placeholder="Mật khẩu" id="password" autocomplete="off">
+                                                    <i class="input-icon uil uil-lock-alt"></i>
+                                                </div>
+                                                <button class="btn mt-4">Đăng nhập trang web</button>
+                                            </form>
+<!--                                            <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-back">
+                                    <div class="center-wrap">
+                                        <div class="section text-center">
+                                            <form th:action="@{/register}" method="post">
+                                                <h4 class="mb-4 pb-3">ĐĂNG KÝ</h4>
+                                                <div class="form-group" hidden="hidden">
+                                                    <input type="text" th:name="role" th:value="USER" class="form-style" id="role" readonly>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" th:name="userName" class="form-style" placeholder="Nhập tên tài khoản ..." id="logUserName" autocomplete="off">
+                                                    <i class="input-icon uil uil-user"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="email" th:name="email" class="form-style" placeholder="Nhập email ..." id="email" autocomplete="off">
+                                                    <i class="input-icon uil uil-at"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="password" th:name="password" class="form-style" placeholder="Nhập mật khẩu ..." id="logPass" autocomplete="off">
+                                                    <i class="input-icon uil uil-lock-alt"></i>
+                                                </div>
+                                                <button class="btn mt-4">Đăng ký tài khoản</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

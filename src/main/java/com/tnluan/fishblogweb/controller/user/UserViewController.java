@@ -71,11 +71,11 @@ public class UserViewController {
         return "user/introducePage";
     }
 
-    // LOGIN PAGE
-    @GetMapping("/login")
-    public String loginPage(Model model) {
+    // LOGIN PAGE OR REGISTRATION PAGE
+    @GetMapping("/login-signup")
+    public String loginOrSignupPage(Model model) {
         model.addAttribute("userLogin", new UserDto());
-        return "user/loginUser";
+        return "user/login_signup_page";
     }
 
     // LOGIN ACTIONS
@@ -90,23 +90,16 @@ public class UserViewController {
             return "redirect:/";
         } catch (ResourceNotFoundException e) {
             model.addAttribute("message", e.getMessage());
-            return "user/loginUser";
+            return "user/login_signup_page";
         }
     }
 
-    // LOGOUT ACTIONS
-    @GetMapping("/logout")
-    public String logoutUser(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
-    }
-
     // REGISTRATION PAGE
-    @GetMapping("/register")
-    public String registerPage(Model model) {
-        model.addAttribute("userRegister", new UserDto());
-        return "user/registerUser";
-    }
+//    @GetMapping("/register")
+//    public String registerPage(Model model) {
+//        model.addAttribute("userRegister", new UserDto());
+//        return "user/registerUser";
+//    }
 
     // REGISTER ACTIONS
     @PostMapping("/register")
@@ -120,8 +113,15 @@ public class UserViewController {
             return "redirect:/";
         } catch (ResourceUnprocessableEntityException e) {
             model.addAttribute("message", e.getMessage());
-            return "user/registerUser";
+            return "user/login_signup_page";
         }
+    }
+
+    // LOGOUT ACTIONS
+    @GetMapping("/logout")
+    public String logoutUser(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 
     // USER'S PROFILE PAGE
@@ -161,6 +161,9 @@ public class UserViewController {
         session.setAttribute("user", updatedUser);
         return "redirect:/profile";
     }
+
+    // UPDATE PASSWORD
+
 
     // DETAILS KIND FISH AND ALL BLOGS OF KIND FISH PAGE
     @GetMapping("/details-kindFish/{id}")

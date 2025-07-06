@@ -58,8 +58,9 @@
         </nav>
 
         <div class="header-social-links" th:if="${session.user} == null">
-            <a th:href="@{/login}" class="link-success">ĐĂNG NHẬP</a>
-            <a th:href="@{/register}" class="link-danger">ĐĂNG KÝ</a>
+            <a th:href="@{/login-signup}">
+                <span class="text-success">ĐĂNG NHẬP</span> <span>/</span> <span class="text-danger">ĐĂNG KÝ</span>
+            </a>
         </div>
 
         <div class="header-social-links" th:unless="${session.user} == null">
