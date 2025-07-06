@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -82,7 +83,8 @@ public class KindFishController {
     // SAVE KIND FISH ACTIONS
     @PostMapping("/save-kindFish")
     public String createNewKindFish(@ModelAttribute KindFishDto kindFishDto,
-                                    @RequestParam("image") MultipartFile imageFile) {
+                                    @RequestParam("image") MultipartFile imageFile,
+                                    RedirectAttributes redirectAttributes) {
 
         if (imageFile != null && !imageFile.isEmpty()) {
             String imageUrl = uploadService.UploadImage(imageFile, Constant.uploadImageKindFishDir);
@@ -95,9 +97,17 @@ public class KindFishController {
         }
 
         if (kindFishDto.getId() == null) {
-            kindFishService.createKindFish(kindFishDto);
+            KindFishDto createdKindFish = kindFishService.createKindFish(kindFishDto);
+
+            redirectAttributes.addFlashAttribute("message",
+                    "Thêm thông tin " + createdKindFish.getKindFishName() + " thành công!");
+            redirectAttributes.addFlashAttribute("typeMessage", "success");
         } else {
-            kindFishService.updateKindFishById(kindFishDto.getId(), kindFishDto);
+            KindFishDto updatedKindFish = kindFishService.updateKindFishById(kindFishDto.getId(), kindFishDto);
+
+            redirectAttributes.addFlashAttribute("message",
+                    "Cập nhật thông tin " + updatedKindFish.getKindFishName() + " thành công!");
+            redirectAttributes.addFlashAttribute("typeMessage", "warning");
         }
 
         return "redirect:/admin/kindFish-management";
@@ -105,8 +115,12 @@ public class KindFishController {
 
     // DELETE KIND FISH
     @DeleteMapping("/delete-kindFish/{id}")
-    public String deleteKindFish(@PathVariable("id") Long id) {
+    public String deleteKindFish(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         kindFishService.deleteKindFishById(id);
+
+        redirectAttributes.addFlashAttribute("message",
+                "Xóa thông tin loại cá cảnh có id là " + id.toString() + " thành công!");
+        redirectAttributes.addFlashAttribute("typeMessage", "danger");
         return "redirect:/admin/kindFish-management";
     }
 }
