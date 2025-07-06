@@ -91,7 +91,8 @@ public class AdminManageController {
         // Update Admin
         UserDto updatedAdmin = userService.updateUserById(admin.getId(), admin);
         if (updatedAdmin != null) {
-            redirectAttributes.addFlashAttribute("message", "Cập nhật thông tin quản trị viên thành công!");
+            redirectAttributes.addFlashAttribute("message",
+                    "Cập nhật thông tin quản trị viên " + updatedAdmin.getUserName() +" thành công!");
             redirectAttributes.addFlashAttribute("typeMessage", "warning");
         }
 
