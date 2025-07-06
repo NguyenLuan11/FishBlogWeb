@@ -9,6 +9,8 @@ import com.tnluan.fishblogweb.exception.ResourceUnprocessableEntityException;
 import com.tnluan.fishblogweb.service.FishBlogService;
 import com.tnluan.fishblogweb.service.KindFishService;
 import com.tnluan.fishblogweb.service.UserService;
+import com.tnluan.fishblogweb.util.Constant;
+import com.tnluan.fishblogweb.util.UploadService;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Comparator;
 import java.util.List;
@@ -31,6 +35,8 @@ public class UserViewController {
     private KindFishService kindFishService;
 
     private FishBlogService fishBlogService;
+
+    private UploadService uploadService;
 
     // HOME PAGE
     @GetMapping("/")
@@ -127,7 +133,34 @@ public class UserViewController {
     }
 
     // UPDATE USER'S INFORMATION ACTIONS
+    @PutMapping("/profile/update")
+    public String updateProfileAdmin(@ModelAttribute UserDto user,
+                                     @RequestParam("imageAvt") MultipartFile imageAvtFile,
+                                     HttpSession session,
+                                     RedirectAttributes redirectAttributes) {
+        // Update Image Avatar
+        if (imageAvtFile != null && !imageAvtFile.isEmpty()) {
+            String imageAvtUrl = uploadService.UploadImage(imageAvtFile, Constant.uploadAvtDir);
+            user.setAvatarUrl(imageAvtUrl);
+        } else {
+            UserDto existingAdmin = userService.getUserById(user.getId());
+            if (existingAdmin != null) {
+                user.setAvatarUrl(existingAdmin.getAvatarUrl());
+            }
+        }
 
+        // Update User
+        UserDto updatedUser = userService.updateUserById(user.getId(), user);
+        if (updatedUser != null) {
+            redirectAttributes.addFlashAttribute("message",
+                    "Cập nhật thông tin người dùng " + updatedUser.getUserName() + " thành công!");
+            redirectAttributes.addFlashAttribute("typeMessage", "warning");
+        }
+
+        // Update session
+        session.setAttribute("user", updatedUser);
+        return "redirect:/profile";
+    }
 
     // DETAILS KIND FISH AND ALL BLOGS OF KIND FISH PAGE
     @GetMapping("/details-kindFish/{id}")
