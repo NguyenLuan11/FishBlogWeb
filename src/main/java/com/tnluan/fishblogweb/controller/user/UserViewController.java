@@ -75,6 +75,7 @@ public class UserViewController {
     @GetMapping("/login-signup")
     public String loginOrSignupPage(Model model) {
         model.addAttribute("userLogin", new UserDto());
+        model.addAttribute("userRegister", new UserDto());
         return "user/login_signup_page";
     }
 
@@ -82,38 +83,34 @@ public class UserViewController {
     @PostMapping("/login")
     public String loginUser(@ModelAttribute("userLogin") UserDto userLogin,
                             HttpSession session,
-                            Model model) {
+                            RedirectAttributes redirectAttributes) {
         try {
             UserDto loginUser = userService.loginAccountUser(userLogin.getUserName(), userLogin.getPassword());
 
             session.setAttribute("user", loginUser);
             return "redirect:/";
         } catch (ResourceNotFoundException e) {
-            model.addAttribute("message", e.getMessage());
-            return "user/login_signup_page";
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            redirectAttributes.addFlashAttribute("typeMessage", "danger");
+            return "redirect:/login-signup";
         }
     }
-
-    // REGISTRATION PAGE
-//    @GetMapping("/register")
-//    public String registerPage(Model model) {
-//        model.addAttribute("userRegister", new UserDto());
-//        return "user/registerUser";
-//    }
 
     // REGISTER ACTIONS
     @PostMapping("/register")
     public String registrationUser(@ModelAttribute("userRegister") UserDto userRegister,
                                     HttpSession session,
-                                    Model model) {
+                                    RedirectAttributes redirectAttributes) {
         try {
+            userRegister.setRole("USER");
             UserDto registrationUser = userService.createUser(userRegister);
 
             session.setAttribute("user", registrationUser);
             return "redirect:/";
         } catch (ResourceUnprocessableEntityException e) {
-            model.addAttribute("message", e.getMessage());
-            return "user/login_signup_page";
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            redirectAttributes.addFlashAttribute("typeMessage", "danger");
+            return "redirect:/login-signup";
         }
     }
 
