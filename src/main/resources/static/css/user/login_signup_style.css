@@ -6,7 +6,7 @@ body{
 	font-size: 15px;
 	line-height: 1.7;
 	color: #c4c3ca;
-	background-color: #0d2130;
+	background-color: #172b1c;
 	overflow-x: hidden;
 }
 a {
@@ -69,7 +69,7 @@ h6 span{
   height: 36px;
   border-radius: 50%;
   color: #ffeba7;
-  background-color: #102770;
+  background-color: #0d6b24;
   content: '↖';
   font-family: inherit;
   z-index: 20;
@@ -108,7 +108,7 @@ h6 span{
 .card-front, .card-back {
   width: 100%;
   height: 100%;
-  background-color: #083a63;
+  background-color: #0b3816;
   background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg');
   background-position: bottom center;
   background-repeat: no-repeat;
@@ -265,7 +265,7 @@ h6 span{
   box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
 }
 .btn:hover{
-  background-color: #102770;
+  background-color: #0d6b24;
   color: #ffeba7;
   box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
 }
