@@ -30,8 +30,6 @@
                             const originalAvatarUrl = /*[[${avatarUrl}]]*/ '';
                         </script>
 
-                        <input id="imageAvt" name="imageAvt" type="file" class="text-center center-block file-upload d-none"
-                               accept="image/*" onchange="previewNewImg()">
                         <br>
                         <h6>Tải lên ảnh đại diện mới ...</h6>
                     </div>
@@ -40,76 +38,66 @@
                 </div><!--/col-3-->
                 <div class="col-sm-9">
                     <div class="tab-content">
-                        <div class="tab-pane active p-1" id="home">
+                        <div class="tab-pane active" id="home">
                             <hr>
 
                             <!-- ✅ Message -->
                             <div th:replace="~{admin/common/alert :: alert}"></div>
 
                             <hr>
-                            <form class="form" th:action="@{/profile/update}" th:object="${user}" method="post" enctype="multipart/form-data" id="registrationForm">
+                            <form class="form p-1" th:action="@{/profile/update}" th:object="${user}" method="post" enctype="multipart/form-data" id="registrationForm">
+                                <input type="hidden" name="_method" value="put">
+
                                 <div class="form-group d-none">
-                                    <div class="col-xs-6">
-                                        <label for="id"><h4>ID</h4></label>
-                                        <input type="hidden" class="form-control" th:field="*{id}" th:name="id" id="id">
-                                    </div>
+                                    <label for="id"><h4>ID</h4></label>
+                                    <input type="hidden" class="form-control" th:field="*{id}" th:name="id" id="id">
                                 </div>
 
-                                <div class="form-group">
-                                    <div class="col-xs-6">
+                                <div class="form-group d-none">
+                                    <input id="imageAvt" name="imageAvt" type="file" class="text-center center-block file-upload d-none"
+                                           accept="image/*" onchange="previewNewImg()">
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col">
                                         <label for="userName"><h4>Tên tài khoản</h4></label>
                                         <input type="text" class="form-control" th:field="*{userName}" th:name="userName" id="userName" placeholder="Nhập tên tài khoản ...">
                                     </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-xs-6">
+                                    <div class="form-group col">
                                         <label for="fullName"><h4>Họ tên</h4></label>
                                         <input type="text" class="form-control" th:field="*{fullName}" th:name="fullName" id="fullName" placeholder="Nhập họ tên ...">
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <div class="col-xs-6">
+                                <div class="form-row">
+                                    <div class="form-group col">
                                         <label for="email"><h4>Email</h4></label>
                                         <input type="email" class="form-control" th:field="*{email}" th:name="email" id="email" placeholder="you@email.com">
                                     </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-xs-6">
+                                    <div class="form-group col">
                                         <label for="phone"><h4>Số điện thoại</h4></label>
                                         <input type="text" class="form-control" th:field="*{phone}" th:name="phone" id="phone" placeholder="Nhập số điện thoại ...">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-xs-6">
-                                        <label for="address"><h4>Địa chỉ</h4></label>
-                                        <input type="text" class="form-control" th:field="*{address}" th:name="address" id="address" placeholder="Nhập địa chỉ ...">
-                                    </div>
+                                    <label for="address"><h4>Địa chỉ</h4></label>
+                                    <input type="text" class="form-control" th:field="*{address}" th:name="address" id="address" placeholder="Nhập địa chỉ ...">
                                 </div>
 
-                                <div class="form-group">
-                                    <div class="col-xs-6">
+                                <div class="form-row">
+                                    <div class="form-group col">
                                         <label for="registeredDate"><h4>Ngày đăng ký tài khoản</h4></label>
                                         <input type="text" class="form-control" th:value="${#dates.format(session.user.registeredDate, 'dd-MM-yyyy')}" id="registeredDate" readonly>
                                     </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-xs-6">
+                                    <div class="form-group col">
                                         <label for="modifiedDate"><h4>Ngày chỉnh sửa thông tin</h4></label>
                                         <input type="text" class="form-control" th:value="${#dates.format(session.user.modifiedDate, 'dd-MM-yyyy')}" id="modifiedDate" readonly>
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <div class="col-xs-12">
-                                        <br>
-                                        <button class="btn btn-lg btn-success w-100" type="submit">Lưu thay đổi</button>
-                                    </div>
-                                </div>
+                                <br>
+                                <button class="btn btn-lg btn-success w-100" type="submit">Lưu thay đổi</button>
 
                             </form>
                             <hr>
