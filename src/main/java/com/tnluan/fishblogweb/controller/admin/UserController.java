@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,8 +51,11 @@ public class UserController {
 
     // DELETE USER ACTIONS
     @DeleteMapping("/delete-user/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
+    public String deleteUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         userService.deleteUserById(id);
+        redirectAttributes.addFlashAttribute("message",
+                "Xóa thông tin tài khoản người dùng có id là " + id.toString() + " thành công!");
+        redirectAttributes.addFlashAttribute("typeMessage", "danger");
         return "redirect:/admin/users-management";
     }
 
