@@ -125,6 +125,7 @@ public class UserViewController {
     @GetMapping("/profile")
     public String profileUserPage(Model model, HttpSession session) {
         UserDto user = (UserDto) session.getAttribute("user");
+        if (user == null) return "redirect:/login-signup";
         model.addAttribute("user", user);
         return "user/profileUser";
     }
