@@ -74,13 +74,18 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="about-avatar">
+                            <div class="about-avatar"
+                                 th:with="avatarUrl=${session.admin.avatarUrl != null} ? @{${session.admin.avatarUrl}} : @{/img/avatar_admin.webp}">
                                 <label for="imageAvt" style="cursor: pointer;">
                                     <img th:if="${session.admin.avatarUrl} == null" th:src="@{/img/avatar_admin.webp}" alt="avatar admin"
                                          class="rounded-circle img-thumbnail" style="width: 300px; height: 300px; object-fit: cover;">
                                     <img th:unless="${session.admin.avatarUrl} == null" th:src="@{${session.admin.avatarUrl}}" alt="avatar admin"
                                          class="rounded-circle img-thumbnail" style="width: 300px; height: 300px; object-fit: cover;">
                                 </label>
+
+                                <script th:inline="javascript">
+                                    const originalAvatarUrl = /*[[${avatarUrl}]]*/ '';
+                                </script>
 
                                 <!-- input file hidden -->
                                 <input type="file" id="imageAvt" name="imageAvt" style="display: none;" accept="image/*"
@@ -94,32 +99,9 @@
 
     </main>
 
+    <script th:src="@{/js/previewNewImgAvt.js}"></script>
     <!-- Footer -->
     <div th:replace="~{admin/common/footerAdmin :: footerAdmin-html}"></div>
-
-    <div th:with="avatarUrl=${session.admin.avatarUrl != null} ? @{${session.admin.avatarUrl}} : @{/img/avatar_admin.webp}">
-        <script th:inline="javascript">
-            const originalAvatarUrl = /*[[${avatarUrl}]]*/ '';
-        </script>
-    </div>
-    <script>
-        function previewNewImg() {
-            const fileInput = document.getElementById("imageAvt");
-
-            // Optional: Preview new Image
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const imgs = document.querySelectorAll('.about-avatar img');
-                    imgs.forEach(img => img.src = e.target.result);
-                };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                const imgs = document.querySelectorAll('.about-avatar img');
-                imgs.forEach(img => img.src = originalAvatarUrl);
-            }
-        }
-    </script>
 
 </body>
 </html>

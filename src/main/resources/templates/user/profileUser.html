@@ -1,10 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Profile User</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="user/common/header :: headUserPage-html(~{::title})">
+    <title th:text="'Profile Of ' + ${user.userName}"></title>
 </head>
 <body>
+
+    <header th:replace="~{user/common/header :: headerUserPage-html}"></header>
+
+    <main class="main">
+        <hr>
+        <div class="container bootstrap snippet">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-sm-10 d-flex justify-content-end align-items-center">
+                    <h1 th:text="'Thông tin tài khoản ' + ${user.userName}" class="text-uppercase m-1"></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"><!--left col-->
+                    <div class="text-center about-avatar"
+                         th:with="avatarUrl=${session.user.avatarUrl != null} ? @{${session.admin.avatarUrl}} : @{/img/avatar_user.png}">
+                        <label for="imageAvt" style="cursor: pointer;">
+                            <img th:if="${session.user.avatarUrl} == null" th:src="@{/img/avatar_user.png}"
+                                 style="height: 200px; width:200px;" class="avatar img-circle img-thumbnail" alt="avatar">
+                            <img th:unless="${session.user.avatarUrl} == null" th:src="@{${session.user.avatarUrl}}"
+                                 style="height: 200px; width:200px;" class="avatar img-circle img-thumbnail" alt="avatar">
+                        </label>
+
+                        <script th:inline="javascript">
+                            const originalAvatarUrl = /*[[${avatarUrl}]]*/ '';
+                        </script>
+
+                        <input id="imageAvt" name="imageAvt" type="file" class="text-center center-block file-upload d-none"
+                               accept="image/*" onchange="previewNewImg()">
+                        <br>
+                        <h6>Tải lên ảnh đại diện mới ...</h6>
+                    </div>
+                    <hr>
+                    <br>
+                </div><!--/col-3-->
+                <div class="col-sm-9">
+                    <div class="tab-content">
+                        <div class="tab-pane active p-1" id="home">
+                            <hr>
+
+                            <!-- ✅ Message -->
+                            <div th:replace="~{admin/common/alert :: alert}"></div>
+
+                            <hr>
+                            <form class="form" th:action="@{/profile/update}" th:object="${user}" method="post" enctype="multipart/form-data" id="registrationForm">
+                                <div class="form-group d-none">
+                                    <div class="col-xs-6">
+                                        <label for="id"><h4>ID</h4></label>
+                                        <input type="hidden" class="form-control" th:field="*{id}" th:name="id" id="id">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="userName"><h4>Tên tài khoản</h4></label>
+                                        <input type="text" class="form-control" th:field="*{userName}" th:name="userName" id="userName" placeholder="Nhập tên tài khoản ...">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="fullName"><h4>Họ tên</h4></label>
+                                        <input type="text" class="form-control" th:field="*{fullName}" th:name="fullName" id="fullName" placeholder="Nhập họ tên ...">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="email"><h4>Email</h4></label>
+                                        <input type="email" class="form-control" th:field="*{email}" th:name="email" id="email" placeholder="you@email.com">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="phone"><h4>Số điện thoại</h4></label>
+                                        <input type="text" class="form-control" th:field="*{phone}" th:name="phone" id="phone" placeholder="Nhập số điện thoại ...">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="address"><h4>Địa chỉ</h4></label>
+                                        <input type="text" class="form-control" th:field="*{address}" th:name="address" id="address" placeholder="Nhập địa chỉ ...">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="registeredDate"><h4>Ngày đăng ký tài khoản</h4></label>
+                                        <input type="text" class="form-control" th:value="${#dates.format(session.user.registeredDate, 'dd-MM-yyyy')}" id="registeredDate" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="modifiedDate"><h4>Ngày chỉnh sửa thông tin</h4></label>
+                                        <input type="text" class="form-control" th:value="${#dates.format(session.user.modifiedDate, 'dd-MM-yyyy')}" id="modifiedDate" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <br>
+                                        <button class="btn btn-lg btn-success w-100" type="submit">Lưu thay đổi</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                            <hr>
+                        </div><!--/tab-pane-->
+
+                    </div><!--/tab-pane-->
+                </div><!--/tab-content-->
+
+            </div><!--/col-9-->
+        </div><!--/row-->
+        <hr>
+    </main>
+
+    <script th:src="@{/js/previewNewImgAvt.js}"></script>
+
+    <footer th:replace="~{user/common/footer :: footerUserPage-html}"></footer>
 
 </body>
 </html>
