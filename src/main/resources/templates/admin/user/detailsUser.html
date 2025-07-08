@@ -1,10 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/common/headerAdmin :: head('Thông tin chi tiết tài khoản ' + ${user.userName})"></head>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .contact-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        img {
+            height: 200px;
+            width: 200px;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Header -->
+    <header th:replace="~{admin/common/headerAdmin :: headerAdmin-html}"></header>
+
+    <!-- Main Content -->
+    <main class="main p-3">
+
+        <div class="bg-light min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="contact-card bg-white rounded-4 shadow-sm overflow-hidden">
+                            <div class="row g-0">
+                                <div class="col-md-4 bg-success bg-gradient d-flex align-items-center justify-content-center p-4">
+                                    <img th:if="${user.avatarUrl} == null" th:src="@{/img/avatar_user.png}" class="rounded-circle shadow-sm" alt="Profile Image">
+                                    <img th:unless="${user.avatarUrl} == null" th:src="@{${user.avatarUrl}}" class="rounded-circle shadow-sm" alt="Profile Image">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h3 class="card-title mb-0 text-success text-uppercase fw-bold" th:text="${user.userName}"></h3>
+                                            <p class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
+                                                <span><i class="fa-regular fa-square-plus me-2"></i>Ngày tạo tài khoản</span><span>: </span>
+                                                <span th:text="${#dates.format(user.registeredDate, 'dd-MM-yyyy')}"></span>
+                                            </p>
+                                        </div>
+                                        <div class="card-text text-muted mb-4">
+                                            <p>
+                                                <span><i class="fa-solid fa-user me-2"></i>Họ tên</span><span>: </span>
+                                                <span th:text="${user.fullName}"></span>
+                                            </p>
+                                            <p>
+                                                <span><i class="fa-solid fa-envelope me-2"></i>Email</span><span>: </span>
+                                                <span th:text="${user.email}"></span>
+                                            </p>
+                                            <p>
+                                                <span><i class="fa-solid fa-phone me-2"></i>Số điện thoại</span><span>: </span>
+                                                <span th:text="${user.phone}"></span>
+                                            </p>
+                                            <p>
+                                                <span><i class="fa-solid fa-pen-to-square me-2"></i>Ngày chỉnh sửa</span><span>: </span>
+                                                <span th:text="${#dates.format(user.modifiedDate, 'dd-MM-yyyy')}"></span>
+                                            </p>
+                                        </div>
+                                        <div class="d-flex gap-3 mb-4">
+                                            <form th:action="@{'/admin/delete-user/' + ${user.id}}" method="post" style="display: inline;">
+                                                <input type="hidden" name="_method" value="delete"/>
+                                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn xoá người dùng này?')">
+                                                    <i class="fa-solid fa-trash me-2"></i>Xóa người dùng
+                                                </button>
+                                            </form>
+                                            <a class="btn btn-outline-success" th:href="@{/admin/users-management}">
+                                                <i class="fa-solid fa-arrow-rotate-left me-2"></i>Trở về danh sách
+                                            </a>
+                                        </div>
+                                        <div class="border-top pt-3">
+                                            <div class="d-flex justify-content-end align-items-center">
+                                                <span class="text-muted small">
+                                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                                    <i th:text="${user.address}"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer th:replace="~{admin/common/footerAdmin :: footerAdmin-html}"></footer>
 
 </body>
 </html>
