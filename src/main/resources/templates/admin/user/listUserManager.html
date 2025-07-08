@@ -1,10 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/common/headerAdmin :: head('Danh sách tài khoản người dùng')"></head>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/admin/listUsersStyle.css}">
 </head>
 <body>
+
+    <!-- Header -->
+    <div th:replace="~{admin/common/headerAdmin :: headerAdmin-html}"></div>
+
+    <main class="main p-3">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-8 col-lg-6">
+                    <!-- Section Heading-->
+                    <div class="section_heading text-center wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                        <h1 class="text-success text-uppercase fw-bold">Danh sách tài khoản người dùng</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-center">
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="form-control search-input" placeholder="Tìm kiếm ...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </div>
+            <hr class="bg-success border-5 border-success">
+
+            <!-- ✅ Message -->
+            <div th:replace="~{admin/common/alert :: alert}"></div>
+
+            <div class="row d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listUsers)}">
+                <h3>Danh sách tài khoản người dùng trống!</h3>
+            </div>
+
+            <div class="row"  th:unless="${#lists.isEmpty(listUsers)}">
+
+                <!-- Single Advisor-->
+                <div th:each="user : ${listUsers}" class="col-12 col-sm-6 col-lg-3">
+                    <div class="single_advisor_profile wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                        <!-- Team Thumb-->
+                        <div class="advisor_thumb">
+                            <a th:href="@{'/admin/details-user/' + ${user.id}}">
+                                <img th:if="${user.avatarUrl} == null" th:src="@{/img/avatar_user.png}" style="height: 250px; width: 250px;" alt="">
+                                <img th:unless="${user.avatarUrl} == null" th:src="@{${user.avatarUrl}}" style="height: 250px; width: 250px;" alt="">
+                            </a>
+                            <!-- Social Info-->
+                            <div class="social-info">
+                                <a th:text="${#dates.format(user.registeredDate, 'dd-MM-yyyy')}"></a>
+                            </div>
+                        </div>
+                        <!-- Team Details-->
+                        <div class="single_advisor_details_info">
+                            <h6 th:text="${user.userName}"></h6>
+                            <p th:text="${user.email}" class="designation"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{admin/common/footerAdmin :: footerAdmin-html}"></div>
 
 </body>
 </html>
