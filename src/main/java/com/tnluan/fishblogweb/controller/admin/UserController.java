@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Controller
@@ -26,7 +27,9 @@ public class UserController {
     public String listUsersView(Model model) {
         try {
             List<UserDto> allUsers = userService.getAllUser();
-            model.addAttribute("listUsers", allUsers);
+            List<UserDto> listUsers = allUsers.stream()
+                    .filter(user -> "USER".equals(user.getRole())).toList();
+            model.addAttribute("listUsers", listUsers);
         } catch (Exception e) {
             throw new ResourceInternalServerErrorException(e.getMessage());
         }
