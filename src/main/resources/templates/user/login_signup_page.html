@@ -34,41 +34,59 @@
                                 <div class="card-front">
                                     <div class="center-wrap">
                                         <div class="section text-center">
+
                                             <form th:action="@{/login}" th:object="${userLogin}" method="post">
                                                 <h4 class="mb-4 pb-3">ĐĂNG NHẬP</h4>
+
                                                 <div class="form-group">
-                                                    <input type="text" th:field="*{userName}" th:name="userName" class="form-style" placeholder="Tên tài khoản" id="userName" autocomplete="off">
+                                                    <input type="text" th:field="*{userName}" th:name="userName" class="form-style" placeholder="Tên tài khoản" id="userNameLogin">
                                                     <i class="input-icon uil uil-user"></i>
                                                 </div>
+
                                                 <div class="form-group mt-2">
-                                                    <input type="password" th:field="*{password}" th:name="password" class="form-style" placeholder="Mật khẩu" id="password" autocomplete="off">
+                                                    <input type="password" th:field="*{password}" th:name="password" class="form-style" placeholder="Mật khẩu" id="passwordLogin" autocomplete="off">
                                                     <i class="input-icon uil uil-lock-alt"></i>
                                                 </div>
+
                                                 <button class="btn mt-4">Đăng nhập trang web</button>
                                             </form>
 <!--                                            <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>-->
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-back">
                                     <div class="center-wrap">
                                         <div class="section text-center">
-                                            <form th:action="@{/register}" th:object="${userRegister}" method="post">
+
+                                            <form th:action="@{/register}" th:object="${userRegister}" method="post" onsubmit="return validatePasswordMatch()">
                                                 <h4 class="mb-4 pb-3">ĐĂNG KÝ</h4>
+
                                                 <div class="form-group">
-                                                    <input type="text" th:field="*{userName}" th:name="userName" class="form-style" placeholder="Nhập tên tài khoản ..." id="logUserName" autocomplete="off">
+                                                    <input type="text" th:field="*{userName}" th:name="userName" class="form-style" placeholder="Nhập tên tài khoản ..." id="userNameSignup" autocomplete="off">
                                                     <i class="input-icon uil uil-user"></i>
                                                 </div>
+
                                                 <div class="form-group mt-2">
-                                                    <input type="email" th:field="*{email}" th:name="email" class="form-style" placeholder="Nhập email ..." id="email" autocomplete="off">
+                                                    <input type="email" th:field="*{email}" th:name="email" class="form-style" placeholder="Nhập email ..." id="emailSignup" autocomplete="off">
                                                     <i class="input-icon uil uil-at"></i>
                                                 </div>
+
                                                 <div class="form-group mt-2">
-                                                    <input type="password" th:field="*{password}" th:name="password" class="form-style" placeholder="Nhập mật khẩu ..." id="logPass" autocomplete="off">
+                                                    <input type="password" th:field="*{password}" th:name="password" class="form-style" placeholder="Nhập mật khẩu ..." id="passSignup" autocomplete="off">
                                                     <i class="input-icon uil uil-lock-alt"></i>
                                                 </div>
+
+                                                <div class="form-group mt-2">
+                                                    <input type="password" class="form-style" placeholder="Nhập lại mật khẩu ..." id="confirmPassword" autocomplete="off">
+                                                    <i class="input-icon uil uil-lock-alt"></i>
+                                                </div>
+
+                                                <div id="confirm-error" class="text-danger mt-1" style="display: none;"></div>
+
                                                 <button class="btn mt-4">Đăng ký tài khoản</button>
                                             </form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -79,6 +97,29 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function validatePasswordMatch() {
+            const password = document.getElementById("passSignup").value;
+            const confirmPass = document.getElementById("confirmPassword").value;
+            const errorDiv = document.getElementById("confirm-error");
+
+            if (password.length < 8) {
+                errorDiv.textContent = "Mật khẩu phải có ít nhất 8 ký tự!";
+                errorDiv.style.display = "block";
+                return false;
+            }
+
+            if (password !== confirmPass) {
+                errorDiv.textContent = "Mật khẩu xác nhận không khớp!";
+                errorDiv.style.display = "block";
+                return false;
+            }
+
+            errorDiv.style.display = "none";
+            return true;
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
