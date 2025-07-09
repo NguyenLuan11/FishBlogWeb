@@ -206,4 +206,37 @@ public class UserViewController {
         }
         return "user/allKindFishView";
     }
+
+    // ALL FISH BLOGS PAGE
+    @GetMapping("/fish-blogs")
+    public String listFishBlogsView(@RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "8") int size,
+                                    Model model) {
+        try {
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+            Page<FishBlogDto> fishBlogDtoPage = fishBlogService.getAllFishBlogPage(pageable);
+            List<FishBlogDto> allFishBlogs = fishBlogService.getAllFishBlog();
+
+            model.addAttribute("listFishBlogsPage", fishBlogDtoPage.getContent());
+            model.addAttribute("listFishBlogs", allFishBlogs);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", fishBlogDtoPage.getTotalPages());
+        } catch (Exception e) {
+            throw new ResourceInternalServerErrorException(e.getMessage());
+        }
+
+        return "user/allFishBlogsView";
+    }
+
+    // DETAILS FISH BLOG
+    @GetMapping("/details-fishBlog/{id}")
+    public String detailsFishBlogView(@PathVariable("id") Long id, Model model) {
+        try {
+            FishBlogDto fishBlogDto = fishBlogService.getFishBlogById(id);
+            model.addAttribute("fishBlog", fishBlogDto);
+        } catch (Exception e) {
+            throw new ResourceInternalServerErrorException(e.getMessage());
+        }
+        return "user/detailsFishBlog";
+    }
 }
