@@ -1,10 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/common/headerAdmin :: head('Danh sách các blog cá cảnh')}"></head>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/admin/listFishBlogsStyle.css}">
 </head>
 <body>
+
+<!-- Header -->
+<header th:replace="~{admin/common/headerAdmin :: headerAdmin-html}"></header>
+
+<!-- Main Content -->
+<main class="main p-3">
+
+    <section id="blogs" class="blogs section">
+
+        <!-- Section Title -->
+        <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+            <div class="section-title-container d-flex align-items-center justify-content-center">
+                <h1 class="text-success fw-bold text-uppercase">Danh sách các blog cá cảnh</h1>
+            </div>
+        </div><!-- End Section Title -->
+
+        <div class="container">
+
+            <div class="d-flex align-content-center justify-content-between">
+                <a th:href="@{/admin/create-fishBlog}" class="btn btn-success">Thêm mới blog cá cảnh</a>
+
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="form-control search-input" placeholder="Tìm kiếm ...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </div>
+            <hr class="bg-success border-5 border-success">
+
+            <!-- ✅ Message -->
+            <div th:replace="~{admin/common/alert :: alert}"></div>
+
+            <!-- DANH SÁCH PHÂN TRANG BACKEND -->
+            <div id="pagedList" class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+
+                <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listFishBlogsPage)}">
+                    <h3>Danh sách các blog cá cảnh trống!</h3>
+                </div>
+
+                <div th:unless="${#lists.isEmpty(listFishBlogsPage)}"
+                     class="row gy-4 isotope-container aos-init aos-animate" data-aos="fade-up" data-aos-delay="200" style="position: relative; height: 983.936px;">
+                    <div th:each="fishBlog : ${listFishBlogsPage}" class="col-lg-4 col-md-6 blogs-item isotope-item filter-app" style="position: absolute; left: 0px; top: 0px;">
+                        <img th:src="${fishBlog.thumbnailUrl}" class="img-fluid" alt="Thumbnail Blog">
+                        <div class="blogs-info">
+                            <h4 th:text="${fishBlog.fishName}"></h4>
+                            <p th:text="'Ngày chỉnh sửa • ' + ${#dates.format(kindFish.modifiedDate, 'dd/MM/yyyy')}"></p>
+                            <a th:href="${fishBlog.thumbnailUrl}" th:title="${fishBlog.fishName}"  data-gallery="blogs-gallery-app" class="glightbox preview-link me-2">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </a>
+                            <a th:href="@{'/admin/details-fishBlog/' + ${fishBlog.id}}" title="More Details" class="details-link">
+                                <i class="fa-solid fa-link"></i>
+                            </a>
+                        </div>
+                    </div><!-- End Item -->
+                </div><!-- End Container -->
+
+                <!-- Pagination -->
+                <div class="d-flex justify-content-center mt-4" th:if="${totalPages > 1}">
+                    <nav>
+                        <ul class="pagination">
+                            <!-- Button Previous -->
+                            <li th:classappend="${currentPage == 0} ? 'disabled'" class="page-item">
+                                <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage - 1})}">Previous</a>
+                            </li>
+
+                            <!-- Numbers of page -->
+                            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                                th:classappend="${i == currentPage} ? 'active'">
+                                <a class="page-link" th:href="@{'/kind-fishes'(page=${i})}" th:text="${i + 1}"></a>
+                            </li>
+
+                            <!-- Button Next -->
+                            <li th:classappend="${currentPage + 1 == totalPages} ? 'disabled'" class="page-item">
+                                <a class="page-link" th:href="@{'/kind-fishes'(page=${currentPage + 1})}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div><!-- /Pagination -->
+
+            </div>
+
+            <!-- DANH SÁCH TÌM KIẾM KẾT QUẢ (ẩn mặc định) -->
+            <div id="searchList" class="isotope-layout" data-default-filter="*"
+                 data-layout="masonry" data-sort="original-order" style="display: none;">
+
+                <div class="row gy-4 isotope-container aos-init aos-animate" data-aos="fade-up"
+                     data-aos-delay="200" style="position: relative; height: 983.936px;" id="searchResults"></div>
+
+                <div class="row row-cols-1 row-cols-md-1 row-cols-lg-1 g-4" id="searchNotFound"></div>
+
+                <!-- Phân trang tìm kiếm -->
+                <div id="searchPaginationContainer" class="d-flex justify-content-center mt-4" style="display: none;">
+                    <ul class="pagination" id="searchPagination"></ul>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer th:replace="~{admin/common/footerAdmin :: footerAdmin-html}"></footer>
+
+<!-- JS LỌC & PHÂN TRANG CLIENT -->
+<script th:inline="javascript">
+    window.allFishBlogs = /*[[${listFishBlogs}]]*/ [];
+</script>
+<script th:src="@{/js/admin/listFishBlogs_search.js}"></script>
+
+<!-- AOS -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+<!-- Isotope & imagesLoaded -->
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+
+<!-- GLightbox -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
+<script th:src="@{/js/admin/listFishBlogs.js}"></script>
 
 </body>
 </html>
