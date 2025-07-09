@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class FishBlogServiceImpl implements FishBlogService {
@@ -84,7 +86,13 @@ public class FishBlogServiceImpl implements FishBlogService {
     }
 
     @Override
-    public Page<FishBlogDto> getAllFishBlog(Pageable pageable) {
+    public List<FishBlogDto> getAllFishBlog() {
+        List<FishBlog> fishBlogList = fishBlogRepository.findAll();
+        return FishBlogMapper.mapFishBlogListToDtoList(fishBlogList);
+    }
+
+    @Override
+    public Page<FishBlogDto> getAllFishBlogPage(Pageable pageable) {
         return fishBlogRepository.findAll(pageable)
                 .map(FishBlogMapper::mapFishBlogToDto);
     }

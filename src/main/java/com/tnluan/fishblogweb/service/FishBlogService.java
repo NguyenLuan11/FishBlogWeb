@@ -14,7 +14,9 @@ public interface FishBlogService {
 
     FishBlogDto getFishBlogById(Long id);
 
-    Page<FishBlogDto> getAllFishBlog(Pageable pageable);
+    List<FishBlogDto> getAllFishBlog();
+
+    Page<FishBlogDto> getAllFishBlogPage(Pageable pageable);
 
     Page<FishBlogDto> getAllFishBlogByKindFishId(Long kindFishId, Pageable pageable);
 
