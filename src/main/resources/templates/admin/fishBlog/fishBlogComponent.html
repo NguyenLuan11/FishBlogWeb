@@ -1,10 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/common/headerAdmin :: head(${fishBlog.id} != null ? 'Cập nhật ' + ${fishBlog.fishName} : 'Thêm mới blog cá cảnh')"></head>
+
+<body class="bg-light">
+<script>
+    tinymce.init({
+        selector: '#description',
+        height: 300,
+        menubar: false,
+        plugins: 'link image code lists',
+        toolbar: 'undo redo | formatselect | bold italic underline | bullist numlist | link image | code',
+        branding: false,
+        setup: function (editor) {
+            editor.on('change', function () {
+                editor.save();
+            });
+        }
+    });
+</script>
+
+<header th:replace="admin/common/headerAdmin :: headerAdmin-html"></header>
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-success text-white">
+            <h3 th:text="${fishBlog.id} != null ? 'Cập nhật thông tin ' + ${fishBlog.fishName} : 'Thêm mới blog cá cảnh'"
+                class="mb-0 text-uppercase text-center"></h3>
+        </div>
+
+        <div class="card-body">
+            <form th:action="@{/admin/save-fishBlog}" th:object="${fishBlog}" method="post" enctype="multipart/form-data">
+
+                <!-- ID hidden -->
+                <input type="hidden" th:field="*{id}"/>
+                <div th:if="*{id} != null" class="mb-3">
+                    <label for="id" class="form-label">ID</label>
+                    <input type="text" th:value="*{id}" class="form-control" id="id" disabled>
+                </div>
+
+                <!-- Fish Name -->
+                <div class="mb-3">
+                    <label for="fishName" class="form-label">Tên blog cá cảnh</label>
+                    <input type="text" th:field="*{fishName}" class="form-control" id="fishName" placeholder="Nhập tên của blog cá cảnh ..." required>
+                </div>
+
+                <!-- KindFish ID -->
+                <div class="mb-3">
+                    <label for="kindFishId" class="form-label">Tên loại cá cảnh</label>
+                    <select th:field="*{kindFishId}" name="kindFishId" id="kindFishId">
+                        <option></option>
+                    </select>
+                </div>
+
+                <!-- Upload Image -->
+
+                <!-- Hidden old image URL -->
+                <input type="hidden" th:field="*{thumbnailUrl}"/>
+                <!-- Show current image if exists -->
+                <div th:if="*{thumbnailUrl} != null" class="mb-3">
+                    <label class="form-label">Ảnh hiện tại</label>
+                    <div>
+                        <img th:src="@{${fishBlog.thumbnailUrl}}" alt="Current Image" class="img-thumbnail" style="max-height: 200px;">
+                    </div>
+                </div>
+
+                <!-- Upload New Image -->
+                <div class="mb-3">
+                    <label for="image" class="form-label">Tải lên ảnh mới</label>
+                    <input class="form-control" type="file" id="image" name="image" accept="image/*"
+                           th:required="*{id} == null" onchange="previewImage(event)">
+                    <small th:if="*{id} != null" class="text-muted">Để trống nếu như không muốn thay đổi ảnh!</small>
+
+                    <!-- Image Preview -->
+                    <div class="mt-3">
+                        <img id="preview" class="img-thumbnail" style="max-height: 200px; display: none;">
+                    </div>
+                </div>
+
+                <!-- Content Blog -->
+                <div class="mb-3">
+                    <label for="contentBlog" class="form-label">Nội dung blog</label>
+                    <textarea th:field="*{contentBlog}" class="form-control" id="contentBlog" rows="15" placeholder="Nhập nội dung blog ..." required></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success" th:text="*{id} != null ? 'Cập nhật' : 'Tạo mới'"></button>
+                    <a th:if="*{id} != null" th:href="@{'/admin/details-fishBlog/' + *{id}}"
+                       th:text="'Trở về chi tiết của ' + *{fishName}" class="btn btn-info mt-2" ></a>
+                    <a th:unless="*{id} != null" th:href="@{/admin/fishBlogs-management}" class="btn btn-info mt-2" >Trở về danh sách các log cá cảnh</a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="admin/common/footerAdmin :: footerAdmin-html"></footer>
+
+<script th:src="@{/js/admin/previewImage.js}"></script>
 
 </body>
 </html>
