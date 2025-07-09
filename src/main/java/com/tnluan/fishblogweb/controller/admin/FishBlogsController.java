@@ -6,10 +6,16 @@ import com.tnluan.fishblogweb.service.FishBlogService;
 import com.tnluan.fishblogweb.service.KindFishService;
 import com.tnluan.fishblogweb.util.UploadService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Controller
@@ -24,7 +30,21 @@ public class FishBlogsController {
 
     // FISH BLOGS MANAGEMENT PAGE
     @GetMapping("/fishBlogs-management")
-    public String listFishBlogsView(Model model) {
+    public String listFishBlogsView(@RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "12") int size,
+                                    Model model) {
+        try {
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+            Page<FishBlogDto> fishBlogDtoPage = fishBlogService.getAllFishBlogPage(pageable);
+            List<FishBlogDto> allFishBlogs = fishBlogService.getAllFishBlog();
+
+            model.addAttribute("listFishBlogsPage", fishBlogDtoPage.getContent());
+            model.addAttribute("listFishBlogs", allFishBlogs);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", fishBlogDtoPage.getTotalPages());
+        } catch (Exception e) {
+            throw new ResourceInternalServerErrorException(e.getMessage());
+        }
 
         return "admin/fishBlog/listFishBlogManager";
     }
