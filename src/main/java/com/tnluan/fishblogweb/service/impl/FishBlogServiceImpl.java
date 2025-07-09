@@ -106,7 +106,7 @@ public class FishBlogServiceImpl implements FishBlogService {
     @Override
     public Page<FishBlogDto> searchFishBlogByFishName(String fishName, Pageable pageable) {
         if (fishName == null || fishName.trim().isEmpty()) {
-            return getAllFishBlog(pageable);
+            return getAllFishBlogPage(pageable);
         }
         return fishBlogRepository.findByFishNameContainingIgnoreCase(fishName, pageable)
                 .map(FishBlogMapper::mapFishBlogToDto);

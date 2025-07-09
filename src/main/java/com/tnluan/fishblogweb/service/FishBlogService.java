@@ -14,6 +14,8 @@ public interface FishBlogService {
 
     FishBlogDto getFishBlogById(Long id);
 
+    void deleteFishBlogById(Long id);
+
     List<FishBlogDto> getAllFishBlog();
 
     Page<FishBlogDto> getAllFishBlogPage(Pageable pageable);
@@ -21,6 +23,4 @@ public interface FishBlogService {
     Page<FishBlogDto> getAllFishBlogByKindFishId(Long kindFishId, Pageable pageable);
 
     Page<FishBlogDto> searchFishBlogByFishName(String fishName, Pageable pageable);
-
-    void deleteFishBlogById(Long id);
 }
