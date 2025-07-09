@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 @AllArgsConstructor
@@ -70,44 +71,55 @@ public class KindFishController {
     @GetMapping({"/create-kindFish", "/update-kindFish/{id}"})
     public String showKindFishForm(@PathVariable(value = "id", required = false) Long id,
                                    Model model) {
-        KindFishDto kindFishDto;
-        if (id != null) {
-            kindFishDto = kindFishService.getKindFishById(id);
-        } else {
-            kindFishDto = new KindFishDto();
+        try {
+            KindFishDto kindFishDto;
+            if (id != null) {
+                kindFishDto = kindFishService.getKindFishById(id);
+            } else {
+                kindFishDto = new KindFishDto();
+            }
+            model.addAttribute("kindFish", kindFishDto);
+        } catch (Exception e) {
+            throw new ResourceInternalServerErrorException(e.getMessage());
         }
-        model.addAttribute("kindFish", kindFishDto);
         return "admin/kindFish/kindFishComponent";
     }
 
     // SAVE KIND FISH ACTIONS
     @PostMapping("/save-kindFish")
-    public String createNewKindFish(@ModelAttribute KindFishDto kindFishDto,
+    public String saveKindFish(@ModelAttribute KindFishDto kindFishDto,
                                     @RequestParam("image") MultipartFile imageFile,
                                     RedirectAttributes redirectAttributes) {
-
-        if (imageFile != null && !imageFile.isEmpty()) {
-            String imageUrl = uploadService.UploadImage(imageFile, Constant.uploadImageKindFishDir);
-            kindFishDto.setImageUrl(imageUrl);
-        } else {
-            KindFishDto existingKindFish = kindFishService.getKindFishById(kindFishDto.getId());
-            if (existingKindFish != null) {
-                kindFishDto.setImageUrl(existingKindFish.getImageUrl());
+        try {
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String imageUrl = uploadService.UploadImage(imageFile, Constant.uploadImageKindFishDir);
+                kindFishDto.setImageUrl(imageUrl);
+            } else {
+                KindFishDto existingKindFish = kindFishService.getKindFishById(kindFishDto.getId());
+                if (existingKindFish != null) {
+                    kindFishDto.setImageUrl(existingKindFish.getImageUrl());
+                }
             }
+        } catch (Exception e) {
+            throw new ResourceInternalServerErrorException("Upload Image Error: " + e.getMessage());
         }
 
-        if (kindFishDto.getId() == null) {
-            KindFishDto createdKindFish = kindFishService.createKindFish(kindFishDto);
+        try {
+            if (kindFishDto.getId() == null) {
+                KindFishDto createdKindFish = kindFishService.createKindFish(kindFishDto);
 
-            redirectAttributes.addFlashAttribute("message",
-                    "Thêm thông tin " + createdKindFish.getKindFishName() + " thành công!");
-            redirectAttributes.addFlashAttribute("typeMessage", "success");
-        } else {
-            KindFishDto updatedKindFish = kindFishService.updateKindFishById(kindFishDto.getId(), kindFishDto);
+                redirectAttributes.addFlashAttribute("message",
+                        "Thêm thông tin " + createdKindFish.getKindFishName() + " thành công!");
+                redirectAttributes.addFlashAttribute("typeMessage", "success");
+            } else {
+                KindFishDto updatedKindFish = kindFishService.updateKindFishById(kindFishDto.getId(), kindFishDto);
 
-            redirectAttributes.addFlashAttribute("message",
-                    "Cập nhật thông tin " + updatedKindFish.getKindFishName() + " thành công!");
-            redirectAttributes.addFlashAttribute("typeMessage", "warning");
+                redirectAttributes.addFlashAttribute("message",
+                        "Cập nhật thông tin " + updatedKindFish.getKindFishName() + " thành công!");
+                redirectAttributes.addFlashAttribute("typeMessage", "warning");
+            }
+        } catch (Exception e) {
+            throw new ResourceInternalServerErrorException(e.getMessage());
         }
 
         return "redirect:/admin/kindFish-management";
@@ -116,11 +128,15 @@ public class KindFishController {
     // DELETE KIND FISH
     @DeleteMapping("/delete-kindFish/{id}")
     public String deleteKindFish(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        kindFishService.deleteKindFishById(id);
+        try {
+            kindFishService.deleteKindFishById(id);
 
-        redirectAttributes.addFlashAttribute("message",
-                "Xóa thông tin loại cá cảnh có id là " + id.toString() + " thành công!");
-        redirectAttributes.addFlashAttribute("typeMessage", "danger");
+            redirectAttributes.addFlashAttribute("message",
+                    "Xóa thông tin loại cá cảnh có id là " + id.toString() + " thành công!");
+            redirectAttributes.addFlashAttribute("typeMessage", "danger");
+        } catch (Exception e) {
+            throw new ResourceInternalServerErrorException(e.getMessage());
+        }
         return "redirect:/admin/kindFish-management";
     }
 }

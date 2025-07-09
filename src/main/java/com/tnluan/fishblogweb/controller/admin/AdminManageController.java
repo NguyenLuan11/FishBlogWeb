@@ -101,4 +101,8 @@ public class AdminManageController {
         return "redirect:/admin/profile";
     }
 
+    // UPDATE PASSWORD
+
+
+
 }
