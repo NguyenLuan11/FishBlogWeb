@@ -48,8 +48,12 @@
         selector: '#contentBlog',
         height: 600,
         menubar: true,
-        plugins: 'link image code lists',
-        toolbar: 'undo redo | formatselect | bold italic underline | bullist numlist | link image | code',
+        plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'help', 'wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | bold italic underline | bullist numlist | link image code |  alignleft aligncenter alignright alignjustify ',
         automatic_uploads: true,
         branding: false,
         images_upload_handler: image_upload_handler,
