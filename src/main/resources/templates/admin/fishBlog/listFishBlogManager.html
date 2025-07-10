@@ -46,7 +46,7 @@
                 <div th:unless="${#lists.isEmpty(listFishBlogsPage)}"
                      class="row gy-4 isotope-container aos-init aos-animate" data-aos="fade-up" data-aos-delay="200" style="position: relative; height: 983.936px;">
                     <div th:each="fishBlog : ${listFishBlogsPage}" class="col-lg-4 col-md-6 blogs-item isotope-item filter-app" style="position: absolute; left: 0px; top: 0px;">
-                        <img th:src="${fishBlog.thumbnailUrl}" class="img-fluid" alt="Thumbnail Blog">
+                        <img th:src="${fishBlog.thumbnailUrl}" class="img-fluid" style="height: 230px; width: 360px;" alt="Thumbnail Blog">
                         <div class="blogs-info">
                             <h4 th:text="${fishBlog.fishName}"></h4>
                             <p th:text="'Ngày chỉnh sửa • ' + ${#dates.format(fishBlog.modifiedDate, 'dd/MM/yyyy')}"></p>
