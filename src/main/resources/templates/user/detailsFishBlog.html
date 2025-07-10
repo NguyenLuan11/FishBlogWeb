@@ -1,10 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="user/common/header :: headUserPage-html(~{::title})">
     <title>Chi tiết bài viết cá cảnh</title>
+    <link rel="stylesheet" th:href="@{/css/admin/detailsFishBlogStyle.css}">
 </head>
 <body>
+
+    <header th:replace="~{user/common/header :: headerUserPage-html}"></header>
+
+    <main class="main">
+
+        <!-- blog Details Section -->
+        <section id="blog-details" class="blog-details section">
+
+            <div class="container" data-aos="fade-up">
+
+                <div class="blog-details-slider swiper init-swiper">
+                    <div class="swiper-wrapper align-items-center">
+                        <div class="swiper-slide p-0">
+                            <img height="600px" width="100%" th:src="${fishBlog.thumbnailUrl}"  alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-between gy-4 mt-4">
+
+                    <div class="col-lg-8" data-aos="fade-up">
+                        <div class="blog-description">
+                            <h2 class="fs-2 fw-bold" th:text="${fishBlog.fishName}"></h2>
+                            <div class="fs-5" th:utext="${fishBlog.contentBlog}"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="blog-info">
+                            <h3>Thông tin bài viết</h3>
+                            <ul class="fs-5">
+                                <li>
+                                    <strong>Loại cá cảnh</strong>
+                                    <a th:href="@{'/details-kindFish/' + ${fishBlog.kindFishId}}"
+                                       th:text="${kindFishName}" class="link-success link-underline-opacity-0"></a>
+                                </li>
+                                <li>
+                                    <strong>Ngày tạo bài viết</strong>
+                                    <span th:text="${#dates.format(fishBlog.createdDate, 'dd/MM/yyyy')}"></span>
+                                </li>
+                                <li>
+                                    <strong>Ngày chỉnh sửa bài viết</strong>
+                                    <span th:text="${#dates.format(fishBlog.modifiedDate, 'dd/MM/yyyy')}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section><!-- /blog Details Section -->
+
+    </main>
+
+    <footer th:replace="~{user/common/footer :: footerUserPage-html}"></footer>
 
 </body>
 </html>
