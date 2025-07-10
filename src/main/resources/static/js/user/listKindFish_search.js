@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
                          <span class="date">Ngày chỉnh sửa</span> <span class="mx-1">•</span>
                          <span>${formatDate(item.modifiedDate)}</span>
                     </div>
-                    <a th:href="@{'/details-kindFish/' + ${item.id}}">
+                    <a href="/details-kindFish/${item.id}">
                          <img src="${item.imageUrl}" style="height:220px; object-fit:cover;" class="card-img-top" alt="Fish Image">
                     </a>
                     <div class="card-body">
