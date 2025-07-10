@@ -139,8 +139,8 @@
                 <div class="d-grid">
                     <button type="submit" class="btn btn-success" th:text="*{id} != null ? 'Cập nhật' : 'Tạo mới'"></button>
                     <a th:if="*{id} != null" th:href="@{'/admin/details-fishBlog/' + *{id}}"
-                       th:text="'Trở về chi tiết của ' + *{fishName}" class="btn btn-info mt-2" ></a>
-                    <a th:unless="*{id} != null" th:href="@{/admin/fishBlogs-management}" class="btn btn-info mt-2" >Trở về danh sách các log cá cảnh</a>
+                       th:text="Trở về chi tiết của blog" class="btn btn-info mt-2" ></a>
+                    <a th:unless="*{id} != null" th:href="@{/admin/fishBlogs-management}" class="btn btn-info mt-2" >Trở về danh sách các blog cá cảnh</a>
                 </div>
 
             </form>
