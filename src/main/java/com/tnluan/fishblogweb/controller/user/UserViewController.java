@@ -176,7 +176,7 @@ public class UserViewController {
             System.out.println("✅ FishBlog List's Size by kindFishId " + id + ": " + fishBlogDtoPage.getContent().size());
 
             model.addAttribute("kindFish", kindFishDto);
-            model.addAttribute("listFishBlog", fishBlogDtoPage.getContent());
+            model.addAttribute("listFishBlogsPage", fishBlogDtoPage.getContent());
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", fishBlogDtoPage.getTotalPages());
             model.addAttribute("kindFishId", id);
@@ -233,7 +233,9 @@ public class UserViewController {
     public String detailsFishBlogView(@PathVariable("id") Long id, Model model) {
         try {
             FishBlogDto fishBlogDto = fishBlogService.getFishBlogById(id);
+            KindFishDto kindFishDto = kindFishService.getKindFishById(fishBlogDto.getKindFishId());
             model.addAttribute("fishBlog", fishBlogDto);
+            model.addAttribute("kindFishName", kindFishDto.getKindFishName());
         } catch (Exception e) {
             throw new ResourceInternalServerErrorException(e.getMessage());
         }
