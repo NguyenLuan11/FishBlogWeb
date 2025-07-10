@@ -47,7 +47,7 @@
 
             <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-                <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listFishBlogPage)}">
+                <div class="d-flex justify-content-center align-items-center" th:if="${#lists.isEmpty(listFishBlogsPage)}">
                     <h3 th:text="'Các bài viết liên quan ' + ${kindFish.kindFishName} + ' trống!'"></h3>
                 </div>
 
@@ -56,7 +56,7 @@
                         <div class="card shadow-sm">
                             <img th:src="${fishBlog.thumbnailUrl}" class="card-img-top img-fluid" width="100%" height="225" alt="Thumbnail Blog">
                             <div class="card-body">
-                                <p class="card-text" th:text="${fishBlog.fishName}"></p>
+                                <p class="card-text fw-bold fs-4" th:text="${fishBlog.fishName}"></p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group p-2">
                                         <a th:href="${fishBlog.thumbnailUrl}" th:title="${fishBlog.fishName}"  data-gallery="blogs-gallery-app" class="glightbox preview-link me-2">
