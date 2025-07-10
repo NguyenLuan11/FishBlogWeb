@@ -60,7 +60,9 @@ public class FishBlogsController {
     public String detailsFishBlogView(@PathVariable("id") Long id, Model model) {
         try {
             FishBlogDto fishBlogDto = fishBlogService.getFishBlogById(id);
+            KindFishDto kindFishDto = kindFishService.getKindFishById(fishBlogDto.getKindFishId());
             model.addAttribute("fishBlog", fishBlogDto);
+            model.addAttribute("kindFishName", kindFishDto.getKindFishName());
         } catch (Exception e) {
             throw new ResourceInternalServerErrorException(e.getMessage());
         }
