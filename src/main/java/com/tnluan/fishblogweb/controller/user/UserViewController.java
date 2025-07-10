@@ -167,7 +167,7 @@ public class UserViewController {
     @GetMapping("/details-kindFish/{id}")
     public String detailsKindFishAndListBlog(@PathVariable("id") Long id,
                                              @RequestParam(defaultValue = "0") int page,
-                                             @RequestParam(defaultValue = "8") int size,
+                                             @RequestParam(defaultValue = "9") int size,
                                              Model model) {
         try {
             KindFishDto kindFishDto = kindFishService.getKindFishById(id);
@@ -210,7 +210,7 @@ public class UserViewController {
     // ALL FISH BLOGS PAGE
     @GetMapping("/fish-blogs")
     public String listFishBlogsView(@RequestParam(defaultValue = "0") int page,
-                                    @RequestParam(defaultValue = "8") int size,
+                                    @RequestParam(defaultValue = "9") int size,
                                     Model model) {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
