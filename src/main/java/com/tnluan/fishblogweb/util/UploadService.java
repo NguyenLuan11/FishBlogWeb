@@ -26,8 +26,13 @@ public class UploadService {
                 Files.createDirectories(uploadPath);
             }
 
-            // Generate a unique filename using the current timestamp to avoid collisions
-            String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
+            String fileName = "";
+            if (folder.equals(Constant.uploadImageFishBlogDir)) {
+                fileName = imageFile.getOriginalFilename();
+            } else {
+                // Generate a unique filename using the current timestamp to avoid collisions
+                fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
+            }
             Path filePath = uploadPath.resolve(fileName);
 
             // Save the file to the target location, replacing if a file with same name exists
