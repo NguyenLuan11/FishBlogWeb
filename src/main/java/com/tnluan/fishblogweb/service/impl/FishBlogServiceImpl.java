@@ -9,6 +9,7 @@ import com.tnluan.fishblogweb.mapper.FishBlogMapper;
 import com.tnluan.fishblogweb.repository.FishBlogRepository;
 import com.tnluan.fishblogweb.repository.KindFishRepository;
 import com.tnluan.fishblogweb.service.FishBlogService;
+import com.tnluan.fishblogweb.util.UploadService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,8 @@ public class FishBlogServiceImpl implements FishBlogService {
     private FishBlogRepository fishBlogRepository;
 
     private KindFishRepository kindFishRepository;
+
+    private UploadService uploadService;
 
     private FishBlog findFishBlogById(Long id) {
         return fishBlogRepository.findById(id).orElseThrow(
@@ -114,9 +117,13 @@ public class FishBlogServiceImpl implements FishBlogService {
 
     @Override
     public void deleteFishBlogById(Long id) {
-        if (!fishBlogRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Fish's blog isn't exists with given id: " + id);
-        }
+        FishBlog fishBlog = findFishBlogById(id);
+
+        // Delete thumbnail
+        uploadService.deleteImage(fishBlog.getThumbnailUrl());
+        // Delete image in content of blog
+        uploadService.deleteImagesFromContentBlog(fishBlog.getContentBlog());
+        // Delete FishBlog in DB
         fishBlogRepository.deleteById(id);
     }
 }

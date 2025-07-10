@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UploadService {
@@ -26,13 +28,8 @@ public class UploadService {
                 Files.createDirectories(uploadPath);
             }
 
-            String fileName = "";
-            if (folder.equals(Constant.uploadImageFishBlogDir)) {
-                fileName = imageFile.getOriginalFilename();
-            } else {
-                // Generate a unique filename using the current timestamp to avoid collisions
-                fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
-            }
+            // Generate a unique filename using the current timestamp to avoid collisions
+            String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
             Path filePath = uploadPath.resolve(fileName);
 
             // Save the file to the target location, replacing if a file with same name exists
@@ -59,4 +56,19 @@ public class UploadService {
             e.printStackTrace();
         }
     }
+
+    public void deleteImagesFromContentBlog(String contentHtml) {
+        if (contentHtml == null || contentHtml.isEmpty()) return;
+
+        // Regex find all src in img tag
+        Pattern pattern = Pattern.compile("<img[^>]+src=[\"'](/upload/imageFishBlog/[^\"']+)[\"']", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(contentHtml);
+
+        while (matcher.find()) {
+            String imageUrl = matcher.group(1); // Ex: /upload/imageFishBlog/abc.jpg
+            // Delete image
+            deleteImage(imageUrl);
+        }
+    }
+
 }
