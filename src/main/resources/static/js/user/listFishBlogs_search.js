@@ -72,10 +72,10 @@ document.addEventListener('DOMContentLoaded', function () {
             col.className = 'col';
 
             col.innerHTML = `
-                <div class="card shadow-sm">
-                    <img src="${item.thumbnailUrl}" class="card-img-top img-fluid" width="100%" height="225" alt="Thumbnail Blog">
+                <div class="card shadow-sm" style="height: 370px;">
+                    <img src="${item.thumbnailUrl}" class="card-img-top img-fluid" width="100%" height="225px" alt="Thumbnail Blog">
                     <div class="card-body">
-                        <p class="card-text fw-bold fs-4">${item.fishName}</p>
+                        <p class="card-text fw-bold fs-5">${item.fishName}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group p-2">
                                 <a href="${item.thumbnailUrl}" title="${item.fishName}" data-gallery="blogs-gallery-app" class="glightbox preview-link me-2">
