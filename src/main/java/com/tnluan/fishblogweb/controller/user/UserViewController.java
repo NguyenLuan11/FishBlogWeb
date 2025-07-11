@@ -233,8 +233,16 @@ public class UserViewController {
     public String detailsFishBlogView(@PathVariable("id") Long id, Model model) {
         try {
             FishBlogDto fishBlogDto = fishBlogService.getFishBlogById(id);
+            // Get KindFish
             KindFishDto kindFishDto = kindFishService.getKindFishById(fishBlogDto.getKindFishId());
-            List<FishBlogDto> listFishBlogSameKindFish = fishBlogService.getAllFishBlogByKindFishId(fishBlogDto.getKindFishId());
+            // Get list FishBlog have same KindFish
+            List<FishBlogDto> listFishBlog = fishBlogService.getAllFishBlogByKindFishId(fishBlogDto.getKindFishId());
+            // Sort by createdDate decrease
+            listFishBlog.sort(Comparator.comparing(FishBlogDto::getCreatedDate).reversed());
+            // Get 10 items first of list
+            int size = listFishBlog.size();
+            int toIndex = Math.min(10, size);
+            List<FishBlogDto> listFishBlogSameKindFish = listFishBlog.subList(0, toIndex);
 
             model.addAttribute("fishBlog", fishBlogDto);
             model.addAttribute("kindFishName", kindFishDto.getKindFishName());
