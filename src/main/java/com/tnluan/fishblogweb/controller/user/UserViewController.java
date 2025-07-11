@@ -234,8 +234,11 @@ public class UserViewController {
         try {
             FishBlogDto fishBlogDto = fishBlogService.getFishBlogById(id);
             KindFishDto kindFishDto = kindFishService.getKindFishById(fishBlogDto.getKindFishId());
+            List<FishBlogDto> listFishBlogSameKindFish = fishBlogService.getAllFishBlogByKindFishId(fishBlogDto.getKindFishId());
+
             model.addAttribute("fishBlog", fishBlogDto);
             model.addAttribute("kindFishName", kindFishDto.getKindFishName());
+            model.addAttribute("listFishBlogSameKindFish", listFishBlogSameKindFish);
         } catch (Exception e) {
             throw new ResourceInternalServerErrorException(e.getMessage());
         }

@@ -54,6 +54,24 @@
                                 </li>
                             </ul>
                         </div>
+                        <br>
+                        <div class="more-blog" th:unless="${#lists.isEmpty(listFishBlogSameKindFish)}">
+                            <h3 th:text="'Các bài viết liên quan về ' + ${kindFishName}"></h3>
+                            <div th:each="fishBlog : ${listFishBlogSameKindFish}" class="row mb-2">
+                                <div class="col">
+                                    <div class="card" style="width: 18rem;">
+                                        <div class="card-body">
+                                            <h5 th:text="${fishBlog.fishName}" class="card-title"></h5>
+                                            <h6 th:text="'Ngày chỉnh sửa • ' + ${#dates.format(fishBlog.modifiedDate, 'dd/MM/yyyy')}"
+                                                class="card-subtitle mb-2 text-muted"></h6>
+                                            <a th:href="@{'/details-fishBlog/' + ${fishBlog.id}}" title="More Details" class="details-link">
+                                                <i class="fa-solid fa-link"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -65,6 +83,7 @@
     </main>
 
     <footer th:replace="~{user/common/footer :: footerUserPage-html}"></footer>
+    <script th:src="@{/js/admin/listFishBlogs.js}"></script>
 
 </body>
 </html>
