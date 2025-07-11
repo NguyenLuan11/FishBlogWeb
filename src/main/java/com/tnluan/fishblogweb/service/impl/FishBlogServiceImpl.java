@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -104,6 +105,12 @@ public class FishBlogServiceImpl implements FishBlogService {
     public Page<FishBlogDto> getAllFishBlogByKindFishId(Long kindFishId, Pageable pageable) {
         return fishBlogRepository.findByKindFishId(kindFishId, pageable)
                 .map(FishBlogMapper::mapFishBlogToDto);
+    }
+
+    @Override
+    public List<FishBlogDto> getAllFishBlogByKindFishId(Long kindFishId) {
+        return fishBlogRepository.findByKindFishId(kindFishId)
+                .stream().map(FishBlogMapper::mapFishBlogToDto).collect(Collectors.toList());
     }
 
     @Override

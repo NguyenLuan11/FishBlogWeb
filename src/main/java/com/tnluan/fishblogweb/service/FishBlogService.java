@@ -22,5 +22,7 @@ public interface FishBlogService {
 
     Page<FishBlogDto> getAllFishBlogByKindFishId(Long kindFishId, Pageable pageable);
 
+    List<FishBlogDto> getAllFishBlogByKindFishId(Long kindFishId);
+
     Page<FishBlogDto> searchFishBlogByFishName(String fishName, Pageable pageable);
 }
