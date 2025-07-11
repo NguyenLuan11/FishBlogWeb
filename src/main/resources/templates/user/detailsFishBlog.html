@@ -35,17 +35,20 @@
                     <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
                         <div class="blog-info">
                             <h3>Thông tin bài viết</h3>
-                            <ul class="fs-5">
-                                <li>
+                            <ul class="list-group list-group-flush fs-5">
+                                <li class="list-group-item">
                                     <strong>Loại cá cảnh</strong>
-                                    <a th:href="@{'/details-kindFish/' + ${fishBlog.kindFishId}}"
-                                       th:text="${kindFishName}" class="link-success link-underline-opacity-0"></a>
+                                    <span> - </span>
+                                    <span>
+                                        <a th:href="@{'/details-kindFish/' + ${fishBlog.kindFishId}}"
+                                           th:text="${kindFishName}" class="link-success link-underline-opacity-0"></a>
+                                    </span>
                                 </li>
-                                <li>
+                                <li class="list-group-item">
                                     <strong>Ngày tạo bài viết</strong>
                                     <span th:text="${#dates.format(fishBlog.createdDate, 'dd/MM/yyyy')}"></span>
                                 </li>
-                                <li>
+                                <li class="list-group-item">
                                     <strong>Ngày chỉnh sửa bài viết</strong>
                                     <span th:text="${#dates.format(fishBlog.modifiedDate, 'dd/MM/yyyy')}"></span>
                                 </li>
